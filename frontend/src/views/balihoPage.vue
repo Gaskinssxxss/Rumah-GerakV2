@@ -116,7 +116,7 @@
                         </div>
                     </div>
                     <div class="pt-4" v-motion-slide-visible-once-left :delay="200">
-                        <h1 class="text-2xl tracking-wide font-Karantina uppercase pb-2">Upload Foto Baliho
+                        <h1 class="text-2xl tracking-wide font-Karantina uppercase pb-2">Upload Foto Posko
                         </h1>
                         <label
                             class="block w-full cursor-pointer bg-gray-200 text-black text-xl py-1 px-4 hover:bg-gray-400 rounded outline-dashed outline-2 outline-offset-4 outline-gray-200 hover:outline-gray-400 focus:outline-none focus:shadow-outline">

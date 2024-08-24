@@ -48,13 +48,13 @@
                             <div @click="showRelawanDelete"
                                 class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 text-black bg-sun hover:text-gray-200 font-semibold hover:bg-che text-xl px-2 uppercase tracking-wider">
                                 <h1>
-                                    Hapus tim Relawan
+                                    Hapus Relawan
                                 </h1>
                             </div>
                             <div @click="showTimRelawanDelete"
                                 class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 text-black bg-sun hover:text-gray-200 font-semibold hover:bg-che text-xl px-2 uppercase tracking-wider">
                                 <h1>
-                                    Hapus Relawan
+                                    Hapus Tim Relawan
                                 </h1>
                             </div>
                         </div>
@@ -1132,6 +1132,8 @@ Catatan Tambahan:
             loading: false,
             token: '',
             bali: false,
+            pdfGeneratedStatus: {},
+            pdfGeneratedTimStatus: {},
         };
     },
     methods: {
@@ -1144,15 +1146,6 @@ Catatan Tambahan:
                 alert('Gagal memperbarui status kegiatan');
             }
         },
-        // async updateKegiatan(namaKegiatan, status) {
-        //     try {
-        //         await Api.put(`kegiatan/relawan/status/${namaKegiatan}`, { status });
-        //         alert('Status kegiatan berhasil diperbarui!');
-        //     } catch (err) {
-        //         console.error(err);
-        //         alert('Gagal memperbarui status kegiatan');
-        //     }
-        // },
         async logout() {
             try {
                 await this.$store.dispatch("logout");
@@ -1195,11 +1188,24 @@ Catatan Tambahan:
         async fetchRelawanToken(id) {
             try {
                 const response = await Api.get(`/relawan/${id}`);
-                const relawan = response.data.data;
-
-                if (relawan) {
-                    this.token = relawan.token;
-                    this.message = `Selamat Anda Telah Terverifikasi Sebagai Relawan. Silahkan Bergabung pada Grup Ini : . Catatan "Tolong Simpan Baik-Baik token anda : *${this.token}*, Karena Akan Digunakan Untuk Beberapa Fitur Terkait Relawan.`;
+                const decData = decryptData(response.data);
+                if (decData) {
+                    try {
+                        const parsedData = JSON.parse(decData);
+                        if (parsedData.data) {
+                            const relawan = parsedData.data;
+                            if (relawan) {
+                                this.token = relawan.token;
+                                this.message = `Selamat Anda Telah Terverifikasi Sebagai Relawan. Silahkan Bergabung pada Grup Ini : . Catatan "Tolong Simpan Baik-Baik token anda : *${this.token}*, Karena Akan Digunakan Untuk Beberapa Fitur Terkait Relawan.`;
+                            }
+                        } else {
+                            console.log('error');
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
+                } else {
+                    console.log('error');
                 }
             } catch (error) {
                 console.error('Error fetching token:', error);
@@ -1208,11 +1214,24 @@ Catatan Tambahan:
         async fetchTimToken(id) {
             try {
                 const res = await Api.get(`/timrelawan/${id}`);
-                const timrelawan = res.data.data;
-
-                if (timrelawan) {
-                    this.token = timrelawan.token;
-                    this.messagex = `Selamat Anda Telah Terverifikasi Sebagai Relawan. Silahkan Bergabung pada Grup Ini : . Catatan "Tolong Simpan Baik-Baik token anda : *${this.token}*, Karena Akan Digunakan Untuk Beberapa Fitur Terkait Relawan.`;
+                const decData = decryptData(res.data);
+                if (decData) {
+                    try {
+                        const parsedData = JSON.parse(decData);
+                        if (parsedData.data) {
+                            const timrelawan = parsedData.data;
+                            if (timrelawan) {
+                                this.token = timrelawan.token;
+                                this.messagex = `Selamat Anda Telah Terverifikasi Sebagai Relawan. Silahkan Bergabung pada Grup Ini : . Catatan "Tolong Simpan Baik-Baik token anda : *${this.token}*, Karena Akan Digunakan Untuk Beberapa Fitur Terkait Relawan.`;
+                            }
+                        } else {
+                            console.log('error');
+                        }
+                    } catch (error) {
+                        console.log(error);
+                    }
+                } else {
+                    console.log('error');
                 }
             } catch (error) {
                 console.error('Error fetching token:', error);
@@ -1389,6 +1408,11 @@ Catatan Tambahan:
                 link.download = `Surat_Pernyataan_RelawanTim_${timrelawan.namatim}.pdf`;
                 link.click();
 
+                this.pdfGeneratedTimStatus = {
+                    ...this.pdfGeneratedTimStatus,
+                    [timrelawan._id]: true
+                };
+                alert('PDF Tim berhasil diunduh!');
             } catch (error) {
                 console.error('Error generating PDF:', error);
             }
@@ -1513,6 +1537,11 @@ Catatan Tambahan:
                 link.download = `Surat_Pernyataan_Relawan_${relawan.nama}.pdf`;
                 link.click();
 
+                this.pdfGeneratedStatus = {
+                    ...this.pdfGeneratedStatus,
+                    [relawan._id]: true
+                };
+                alert('PDF Relawan berhasil diunduh!');
             } catch (error) {
                 console.error('Error generating PDF:', error);
             }
@@ -1603,6 +1632,11 @@ Catatan Tambahan:
             }
         },
         async updateRelawanStatus(id, status, hp) {
+            if (!this.pdfGeneratedStatus[id]) {
+                alert('Harap unduh PDF terlebih dahulu sebelum mengubah status.');
+                return;
+            }
+
             try {
                 const response = await Api.put(`/relawan/${id}`, { status });
                 console.log(response);
@@ -1620,6 +1654,11 @@ Catatan Tambahan:
             }
         },
         async updateTimRelawanStatus(id, status, hp) {
+            if (!this.pdfGeneratedTimStatus[id]) {
+                alert('Harap unduh PDF terlebih dahulu sebelum mengubah status.');
+                return;
+            }
+
             try {
                 const response = await Api.put(`/timrelawan/${id}`, { status });
                 console.log(response);
@@ -1889,7 +1928,7 @@ Catatan Tambahan:
             this.timrelawanDelete = true;
         },
         getFullImgPath(img) {
-            return `http://rumahgerak.com/${img}`;
+            return `http://rumahgerak.com:3000/${img}`;
         },
     },
     mounted() {
