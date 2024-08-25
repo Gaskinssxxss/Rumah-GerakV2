@@ -3,7 +3,7 @@
         <div class="py-12 w-full px-4">
             <div class="font-Karantina font-bold uppercase">
                 <div class="flex justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    <svg xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-20">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
@@ -51,7 +51,7 @@
                                                 <div class="bg-black rounded-full">
                                                     <button @click="close"
                                                         class="transition-transform duration-300 ease-linear transform translate-x-0 translate-y-0 hover:-translate-x-0 hover:-translate-y-1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                        <svg xmlns="https://www.w3.org/2000/svg"
                                                             class="w-10 h-10 p-2 border-2 border-black rounded-full bg-gray-200 "
                                                             viewBox="0 0 24 24">
                                                             <path

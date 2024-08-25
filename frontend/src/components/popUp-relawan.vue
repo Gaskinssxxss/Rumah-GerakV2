@@ -15,7 +15,7 @@
                                         <div class="bg-black rounded-full">
                                             <button @click="close"
                                                 class="transition-transform duration-300 ease-linear transform translate-x-0 translate-y-0 hover:-translate-x-0 hover:-translate-y-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                <svg xmlns="https://www.w3.org/2000/svg"
                                                     class="w-10 h-10 p-2 border-2 border-black rounded-full bg-gray-200 "
                                                     viewBox="0 0 24 24">
                                                     <path
@@ -32,7 +32,7 @@
                                 class="bg-gray-200 rounded-b-md relative -top-2 -left-2 border-2 border-black py-1 sm:py-4 px-4 text-start">
                                 <div class="pt-2 space-y-4">
                                     <div class="flex space-x-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="#00000" viewBox="0 0 24 24"
+                                        <svg xmlns="https://www.w3.org/2000/svg" fill="#00000" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M5.25 7.5A2.25 2.25 0 0 1 7.5 5.25h9a2.25 2.25 0 0 1 2.25 2.25v9a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-9Z" />
@@ -40,7 +40,7 @@
                                         <h1>Terhubung Langsung Dengan Tim Internal Pemenangan Maupun kandidat.</h1>
                                     </div>
                                     <div class="flex space-x-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="#00000" viewBox="0 0 24 24"
+                                        <svg xmlns="https://www.w3.org/2000/svg" fill="#00000" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-10">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M5.25 7.5A2.25 2.25 0 0 1 7.5 5.25h9a2.25 2.25 0 0 1 2.25 2.25v9a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-9Z" />
@@ -49,7 +49,7 @@
                                             Tim Internal Pemenangan.</h1>
                                     </div>
                                     <div class="flex space-x-2 pb-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="#00000" viewBox="0 0 24 24"
+                                        <svg xmlns="https://www.w3.org/2000/svg" fill="#00000" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M5.25 7.5A2.25 2.25 0 0 1 7.5 5.25h9a2.25 2.25 0 0 1 2.25 2.25v9a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-9Z" />

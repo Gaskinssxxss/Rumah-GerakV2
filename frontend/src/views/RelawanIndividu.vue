@@ -99,7 +99,7 @@
                                 class="block w-full cursor-pointer bg-gray-200 text-black text-xl py-1 px-4 hover:bg-gray-400 rounded outline-dashed outline-2 outline-offset-4 outline-gray-200 hover:outline-gray-400 focus:outline-none focus:shadow-outline">
                                 <div class="flex items-center space-x-4 cursor-pointe">
                                     <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        <svg xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="size-8">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />

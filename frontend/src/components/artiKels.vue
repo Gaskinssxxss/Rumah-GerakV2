@@ -103,7 +103,7 @@ export default {
     },
     methods: {
         getFullImgPath(img) {
-            return `http://rumahgerak.com/${img}`;
+            return `https://rumahgerak.com/${img}`;
         },
         async buka(id) {
             console.log(id)

@@ -12,7 +12,7 @@ const app = express();
 if (process.env.NODE_ENV === "production") {
   app.use(
     cors({
-      origin: "http://rumahgerak.com",
+      origin: "https://rumahgerak.com",
       credentials: true,
     })
   );

@@ -109,10 +109,10 @@ export default {
     },
     methods: {
         getFullImgPath(img) {
-            return `http://rumahgerak.com/${img}`;
+            return `https://rumahgerak.com/${img}`;
         },
         getFullImgPath2(img2) {
-            return `http://rumahgerak.com/${img2}`;
+            return `https://rumahgerak.com/${img2}`;
         },
         scrollToTop() {
             window.scrollTo({

@@ -2,7 +2,7 @@ import axios from "axios";
 
 let baseUrl;
 if (process.env.NODE_ENV === "production") {
-  baseUrl = process.env.VUE_APP_SERVER || "http://rumahgerak.com/api";
+  baseUrl = process.env.VUE_APP_SERVER || "https://rumahgerak.com/api";
 } else {
   baseUrl = process.env.BASE_URL + "api";
 }

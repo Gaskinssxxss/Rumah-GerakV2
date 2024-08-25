@@ -1034,7 +1034,7 @@ router.post("/users/login", (req, res) => {
       }
       const maxAge = 3 * 24 * 60 * 60;
       const token = createJwt(user._id, maxAge);
-      res.cookie("auth", token, { httpOnly: true, maxAge: maxAge * 10 });
+      res.cookie("auth", token, { httpsOnly: true, maxAge: maxAge * 10 });
       clientReady = false;
       client.on("qr", handleQR);
       client.initialize();

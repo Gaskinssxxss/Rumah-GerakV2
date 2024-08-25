@@ -26,7 +26,7 @@
         <div class="pt-10 md:pt-5 3xl:pt-10">
             <div v-if="!showAll" class="flex justify-center">
                 <div class="w-16 h-16 rounded-full bg-black">
-                    <svg @click="toggleShowAll" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    <svg @click="toggleShowAll" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="1.5" stroke="currentColor"
                         class="bg-gray-200 hover:bg-nasdem border-2 border-black px-3 py-3 rounded-full w-16 h-16 mx-auto stroke-[3px] stroke-black hover:stroke-gray-200 transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-1 hover:-translate-x-0 hover:-translate-y-3">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -36,7 +36,7 @@
             </div>
             <div v-else class="flex justify-center">
                 <div class="w-16 h-16 rounded-full bg-black">
-                    <svg @click="toggleShowAll" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    <svg @click="toggleShowAll" xmlns="https://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="1.5" stroke="currentColor"
                         class="bg-gray-200 hover:bg-nasdem border-2 border-black rotate-180 px-3 py-3 rounded-full w-16 h-16 mx-auto stroke-[3px] stroke-black hover:stroke-gray-200 transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-1 hover:-translate-x-0 hover:-translate-y-3">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -113,7 +113,7 @@ export default {
     methods: {
         getFullImgPath(img) {
             const correctedPath = img.replace(/\\/g, '/');
-            return `http://rumahgerak.com/${correctedPath}`;
+            return `https://rumahgerak.com/${correctedPath}`;
         },
         async buka(id) {
             await this.$router.push({ name: 'PORTAL', params: { id } });

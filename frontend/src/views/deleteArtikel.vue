@@ -96,7 +96,7 @@ export default {
                 });
         },
         getFullImgPath(img) {
-            return `http://rumahgerak.com/${img}`;
+            return `https://rumahgerak.com/${img}`;
         },
     },
 };
