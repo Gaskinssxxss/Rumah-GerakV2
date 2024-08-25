@@ -15,7 +15,7 @@
                                         <div class="bg-black rounded-full">
                                             <button @click="close"
                                                 class="transition-transform duration-300 ease-linear transform translate-x-0 translate-y-0 hover:-translate-x-0 hover:-translate-y-1">
-                                                <svg xmlns="https://www.w3.org/2000/svg"
+                                                <svg xmlns="http://www.w3.org/2000/svg"
                                                     class="w-10 h-10 p-2 border-2 border-black rounded-full bg-gray-200 "
                                                     viewBox="0 0 24 24">
                                                     <path

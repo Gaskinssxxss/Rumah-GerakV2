@@ -18,7 +18,7 @@
             <div class="pt-4">
                 <button @click="open"
                     class="transition-transform duration-300 ease-linear transform -translate-x-0 -translate-y-0 hover:-translate-x-1 hover:-translate-y-1">
-                    <svg xmlns="https://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
                         class="size-12 stroke-black active:stroke-gray-600 hover:stroke-gray-600">
                         <path stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
                     </svg>

@@ -10,7 +10,7 @@ const dragon = new Schema({
     type: String,
     required: true,
     default:
-      "httpss://www.kindpng.com/picc/m/13-138062_dragon-icon-png-dragon-clip-art-transparent-png.png",
+      "https://www.kindpng.com/picc/m/13-138062_dragon-icon-png-dragon-clip-art-transparent-png.png",
   },
   damage: {
     type: Number,

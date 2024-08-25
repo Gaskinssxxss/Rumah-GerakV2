@@ -461,7 +461,7 @@
                                                                 <div class="bg-black rounded-full">
                                                                     <button @click="close"
                                                                         class="transition-transform duration-300 ease-linear transform translate-x-0 translate-y-0 hover:-translate-x-0 hover:-translate-y-1">
-                                                                        <svg xmlns="https://www.w3.org/2000/svg"
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
                                                                             class="w-10 h-10 p-2 border-2 border-black rounded-full bg-gray-200 "
                                                                             viewBox="0 0 24 24">
                                                                             <path
@@ -474,7 +474,7 @@
                                                     </div>
                                                     <div v-if="loading" class="flex justify-center items-center">
                                                         <svg class="animate-spin h-10 w-10 text-black"
-                                                            xmlns="https://www.w3.org/2000/svg" fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24">
                                                             <circle class="opacity-25" cx="12" cy="12" r="10"
                                                                 stroke="currentColor" stroke-width="4"></circle>
@@ -953,10 +953,10 @@
                                         <textarea v-model="message" placeholder="Masukkan pesan untuk relawan..."
                                             class="w-full h-32 mb-4 border border-gray-300 rounded-lg p-2"></textarea>
                                         <div class="pb-6 space-y-2">
-                                            <h1>Link Group Relawan : httpss://chat.whatsapp.com/DuOy4iikLCzAXeR2XovBMO
+                                            <h1>Link Group Relawan : https://chat.whatsapp.com/DuOy4iikLCzAXeR2XovBMO
                                             </h1>
                                             <h1>Link Group Tim Relawan :
-                                                httpss://chat.whatsapp.com/DuOy4iikLCzAXeR2XovBMO
+                                                https://chat.whatsapp.com/DuOy4iikLCzAXeR2XovBMO
                                             </h1>
                                         </div>
                                         <div class="flex justify-end space-x-4">
@@ -974,10 +974,10 @@
                                         <textarea v-model="messagex" placeholder="Masukkan pesan untuk relawan..."
                                             class="w-full h-32 mb-4 border border-gray-300 rounded-lg p-2"></textarea>
                                         <div class="pb-6 space-y-2">
-                                            <h1>Link Group Relawan : httpss://chat.whatsapp.com/DuOy4iikLCzAXeR2XovBMO
+                                            <h1>Link Group Relawan : https://chat.whatsapp.com/DuOy4iikLCzAXeR2XovBMO
                                             </h1>
                                             <h1>Link Group Tim Relawan :
-                                                httpss://chat.whatsapp.com/DuOy4iikLCzAXeR2XovBMO
+                                                https://chat.whatsapp.com/DuOy4iikLCzAXeR2XovBMO
                                             </h1>
                                         </div>
                                         <div class="flex justify-end space-x-4">
@@ -1928,7 +1928,7 @@ Catatan Tambahan:
             this.timrelawanDelete = true;
         },
         getFullImgPath(img) {
-            return `https://rumahgerak.com:3000/${img}`;
+            return `https://rumahgerak.com/${img}`;
         },
     },
     mounted() {
