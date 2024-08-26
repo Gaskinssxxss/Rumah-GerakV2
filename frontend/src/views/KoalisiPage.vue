@@ -3,7 +3,7 @@
         <div class="pt-14 pb-2">
             <div class="-mx-6" v-motion-pop :delay="250">
                 <div class="bg-nasdem border-2 border-black py-2">
-                    <VueMarqueeSlider :speed="8000" :width="50" :space="35">
+                    <VueMarqueeSlider :speed="8000" :width="50" :space="30">
                         <div class="flex border-2 border-black bg-golkar">
                             <img src="../assets/golkar.png" />
                         </div>
@@ -17,10 +17,10 @@
                             <img src="../assets/Gelora.png" />
                         </div>
                         <div class="flex border-2 border-black">
-                            <img src="../assets/pkb.jpeg" />
+                            <img src="../assets/hanura.png" />
                         </div>
                         <div class="flex border-2 border-black">
-                            <img src="../assets/ppp.png" />
+                            <img src="../assets/pdip.png" />
                         </div>
                         <div class="flex border-2 border-black">
                             <img src="../assets/Perindo.png" />
@@ -80,12 +80,12 @@
                     <div class="bg-black w-36 h-32">
                         <div class="bg-golkar border-2 border-black w-36 h-32 ">
                             <div>
-                                <img class="w-36 h-32" src="../assets/pkb.jpeg" alt="">
+                                <img class="w-36 h-32" src="../assets/hanura.png" alt="">
                             </div>
                         </div>
                     </div>
                     <div class="pt-2" v-motion-slide-visible-once-right :delay="200">
-                        <h1>PARTAI PKB</h1>
+                        <h1>PARTAI HANURA</h1>
                         <div class="text-lg -mt-2">
                             <h1>*</h1>
                         </div>
@@ -95,12 +95,12 @@
                     <div class="bg-black w-36 h-32">
                         <div class="bg-gray-200 border-2 border-black w-36 h-32 ">
                             <div>
-                                <img class="w-36 h-32" src="../assets/ppp.png" alt="">
+                                <img class="w-36 h-32" src="../assets/pdip.png" alt="">
                             </div>
                         </div>
                     </div>
                     <div class="pt-2" v-motion-slide-visible-once-right :delay="200">
-                        <h1>PARTAI PPP</h1>
+                        <h1>PARTAI PDIP</h1>
                         <div class="text-lg -mt-2">
                             <h1>*</h1>
                         </div>

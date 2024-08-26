@@ -11,6 +11,8 @@ const KegiatanRelawan = require("../model/kegiatanRelawan");
 const LaporanIsu = require("../model/laproanisu");
 const Visimisi = require("../model/visimisi");
 const Trackrecord = require("../model/trackRecord");
+const Chat = require("../model/chat");
+const Board = require("../model/board");
 const jwt = require("jsonwebtoken");
 const { SECRET, MAX_AGE } = require("../consts");
 const { requireLogin } = require("../middleware/authentication");
@@ -82,6 +84,129 @@ client.on("ready", () => {
 
 client.on("authenticated", () => {
   console.log("Client terautentikasi");
+});
+
+router.get("/chat/:visitorID", async (req, res) => {
+  try {
+    const { visitorID } = req.params;
+    console.log(`Mencari chat dengan visitorID: ${visitorID}`); // Debugging
+
+    const chat = await Chat.findOne({ visitorID });
+
+    if (!chat) {
+      console.log(`Chat dengan visitorID: ${visitorID} tidak ditemukan.`);
+      return res.status(404).json({ message: "Chat not found" });
+    }
+
+    res.json(chat);
+  } catch (error) {
+    console.log(
+      `Error saat mencari chat dengan visitorID: ${visitorID}`,
+      error
+    );
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+router.get("/chats/active", async (req, res) => {
+  try {
+    const activeChats = await Chat.find({ isActive: true });
+    res.json(activeChats);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching active chats", error });
+  }
+});
+
+router.post("/chat/:visitorID/close", async (req, res) => {
+  try {
+    const { visitorID } = req.params;
+    const chat = await Chat.findOne({ visitorID });
+
+    if (!chat) {
+      return res.status(404).json({ message: "Chat not found" });
+    }
+
+    chat.isActive = false;
+    await chat.save();
+
+    res.json({ message: "Chat session closed" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+router.get("/board", (req, res) => {
+  Board.find()
+    .then((boards) => {
+      const resData = { message: "success", data: boards };
+      const encryptedData = encryptData(resData);
+      res.status(200).json(encryptedData);
+    })
+    .catch((error) => res.status(400).json({ message: "error", error }));
+});
+
+router.get("/board/:id", (req, res) => {
+  const { id } = req.params;
+  Board.findById(id)
+    .then((boards) => {
+      const resData = { message: "success", data: boards };
+      const encryptedData = encryptData(resData);
+      res.status(200).json(encryptedData);
+    })
+    .catch((error) => res.status(400).json({ message: "error", error }));
+});
+
+router.post("/board", upload.single("img"), (req, res) => {
+  const { judul, jam, tempat, tanggal } = req.body;
+  const img = req.file ? req.file.path : "";
+
+  Board.create({
+    judul,
+    img,
+    tempat,
+    jam,
+    tanggal,
+  })
+    .then((boards) => {
+      res.status(201).json({ message: "success", data: boards });
+    })
+    .catch((error) => res.status(400).json({ message: "error", error }));
+});
+
+router.put("/board/edit/:id", upload.single("img"), (req, res) => {
+  const { id } = req.params;
+  const { judul, jam, tempat, tanggal } = req.body;
+
+  Board.findById(id)
+    .then((boards) => {
+      if (!boards) {
+        return res.status(404).json({ message: "boards not found" });
+      }
+
+      const img = req.files["img"] ? req.files["img"][0].path : boards.img;
+
+      boards.judul = judul || boards.judul;
+      boards.img = img;
+      boards.tempat = tempat || boards.tempat;
+      boards.jam = jam || boards.jam;
+      boards.tanggal = tanggal || boards.tanggal;
+
+      return boards.save();
+    })
+    .then((updatedBoards) => {
+      res.status(200).json({ message: "success", data: updatedBoards });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({ message: "error", error });
+    });
+});
+
+router.delete("/board/delete/:id", (req, res) => {
+  const { id } = req.params;
+  Board.findByIdAndDelete(id)
+    .then(() => res.status(200).json({ message: "success" }))
+    .catch((error) => res.status(400).json({ message: "error", error }));
 });
 
 router.get("/visi-misi", (req, res) => {

@@ -172,10 +172,10 @@ export default {
                 });
         },
         getFullImgPath(img) {
-            return `https://rumahgerak.com/${img}`;
+            return `http://192.168.1.104:3000/${img}`;
         },
         getFullImgPath2(img2) {
-            return `https://rumahgerak.com/${img2}`;
+            return `http://192.168.1.104:3000/${img2}`;
         },
     },
 };

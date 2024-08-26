@@ -35,7 +35,7 @@
     <div class="pt-8 pb-8 -mx-2">
       <div v-motion-slide-visible-once-left :delay="200">
         <div class="bg-nasdem border-2 border-black py-2">
-          <VueMarqueeSlider :speed="8000" :width="50" :space="35">
+          <VueMarqueeSlider :speed="8000" :width="50" :space="30">
             <div class="flex border-2 border-black bg-golkar">
               <img src="../assets/golkar.png" />
             </div>
@@ -49,10 +49,10 @@
               <img src="../assets/Gelora.png" />
             </div>
             <div class="flex border-2 border-black">
-              <img src="../assets/pkb.jpeg" />
+              <img src="../assets/hanura.png" />
             </div>
             <div class="flex border-2 border-black">
-              <img src="../assets/ppp.png" />
+              <img src="../assets/pdip.png" />
             </div>
             <div class="flex border-2 border-black">
               <img src="../assets/Perindo.png" />
@@ -224,7 +224,7 @@
 
 <script>
 import popUp from "@/components/popUp.vue"
-import gridArtikel from "@/components/gridArtikel.vue"
+import gridArtikel from "@/components/gridArtikel.vue";
 import { VueMarqueeSlider } from '../../node_modules/vue3-marquee-slider';
 import '../../node_modules/vue3-marquee-slider/dist/style.css'
 import api from "@/services/api";

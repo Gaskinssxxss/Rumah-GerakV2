@@ -2,7 +2,7 @@
     <div class="font-Jet font-medium text-base uppercase">
         <div class="overflow-y-auto h-[33.4rem]">
             <div class="grid grid-cols-3 gap-x-8 w-[60rem] p-4">
-                <div v-show="artics" v-for="artikel in artikels" :key="artikel._id">
+                <div v-show="bords" v-for="artikel in boards" :key="artikel._id">
                     <div class="bg-black">
                         <div class="border-2 border-black px-4 py-4 bg-gray-200 relative -top-2 -left-2">
                             <h2 class="text-base font-bold font-Jet mb-2 pt-2">{{ artikel.judul }}</h2>
@@ -24,55 +24,29 @@
                     </div>
                 </div>
             </div>
-            <div v-show="select" v-if="selectedArtikel">
+            <div v-show="select" v-if="selectedBoard">
                 <form @submit.prevent="updateArtikel" class="space-y-4">
                     <label class="block mb-2">Judul</label>
                     <div class="bg-black mr-6">
-                        <input v-model="selectedArtikel.judul" placeholder="Judul" required
+                        <input v-model="selectedBoard.judul" placeholder="Judul" required
                             class="w-[60rem] py-2 capitalize pl-2 border border-black bg-gray-100 " />
                     </div>
                     <div>
                         <label class="block mb-2">Gambar 1</label>
-                        <img :src="getFullImgPath(selectedArtikel.img)" alt="Image 1"
-                            class="mb-2 w-72 h-56 object-cover" v-if="selectedArtikel.img" />
+                        <img :src="getFullImgPath(selectedBoard.img)" alt="Image 1" class="mb-2 w-72 h-56 object-cover"
+                            v-if="selectedBoard.img" />
                         <input type="file" @change="onFileChange" />
                     </div>
-                    <div>
-                        <div class="bg-black mr-6">
-                            <textarea class="w-[60rem] h-[8rem] py-2 capitalize pl-2 border border-black bg-gray-100 "
-                                v-model="selectedArtikel.p1" placeholder="Content" required></textarea>
-                        </div>
-                        <div class="mt-4 bg-black mr-6">
-                            <textarea class="w-[60rem] h-[8rem] py-2 capitalize pl-2 border border-black bg-gray-100 "
-                                v-model="selectedArtikel.p2" placeholder="Content" required></textarea>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block mb-2">Gambar 2</label>
-                        <img :src="getFullImgPath2(selectedArtikel.img2)" alt="Image 2"
-                            class="mb-2 w-72 h-56 object-cover" v-if="selectedArtikel.img2" />
-                        <input type="file" @change="onFileChanges" />
-                    </div>
-                    <div>
-                        <div class="bg-black mr-6">
-                            <textarea class="w-[60rem] h-[8rem] py-2 capitalize pl-2 border border-black bg-gray-100 "
-                                v-model="selectedArtikel.p3" placeholder="Content" required></textarea>
-                        </div>
-                        <div class="bg-black mr-6 mt-4">
-                            <textarea class="w-[60rem] h-[8rem] py-2 capitalize pl-2 border border-black bg-gray-100 "
-                                v-model="selectedArtikel.p4" placeholder="Content" required></textarea>
-                        </div>
-                        <div class="bg-black mr-6 mt-4">
-                            <textarea class="w-[60rem] h-[8rem] py-2 capitalize pl-2 border border-black bg-gray-100 "
-                                v-model="selectedArtikel.p5" placeholder="Content" required></textarea>
-                        </div>
-                    </div>
                     <div class="bg-black mr-6">
-                        <input v-model="selectedArtikel.author" placeholder="Author" required
+                        <input v-model="selectedBoard.jam" placeholder="Author" required
                             class="w-[60rem] py-2 capitalize pl-2 border border-black bg-gray-100 " />
                     </div>
                     <div class="bg-black mr-6">
-                        <input v-model="selectedArtikel.tanggal" type="date" placeholder="Tanggal" required
+                        <input v-model="selectedBoard.tempat" placeholder="Author" required
+                            class="w-[60rem] py-2 capitalize pl-2 border border-black bg-gray-100 " />
+                    </div>
+                    <div class="bg-black mr-6">
+                        <input v-model="selectedBoard.tanggal" type="date" placeholder="Tanggal" required
                             class="w-[60rem] py-2 capitalize pl-2 border border-black bg-gray-100  px-10" />
                     </div>
                     <div class="flex justify-between py-4">
@@ -100,7 +74,7 @@
 </template>
 
 <script>
-import artikelService from '../services/artikelApi';
+import boardApi from '@/services/boardApi';
 import CryptoJS from 'crypto-js';
 
 const secretKey = 'c8h2NdW7oE9kJ4r5bT8vF1gP3yS6wL7n';
@@ -125,11 +99,10 @@ const decryptData = (encryptedData) => {
 export default {
     data() {
         return {
-            artikels: [],
-            selectedArtikel: null,
+            boards: [],
+            selectedBoard: null,
             img: null,
-            img2: null,
-            artics: true,
+            bords: true,
             select: false,
         };
     },
@@ -138,11 +111,11 @@ export default {
     },
     methods: {
         back() {
-            this.artics = true,
+            this.bords = true,
                 this.select = false;
         },
         fetchArtikels() {
-            artikelService.getAll()
+            boardApi.getAll()
                 .then(response => {
                     const decData = decryptData(response.data);
 
@@ -150,7 +123,7 @@ export default {
                         try {
                             const parsedData = JSON.parse(decData);
                             if (Array.isArray(parsedData.data)) {
-                                this.artikels = parsedData.data;
+                                this.boards = parsedData.data;
                             } else {
                                 return;
                             }
@@ -162,40 +135,31 @@ export default {
                     }
                 })
                 .catch(error => {
-                    console.error('Error fetching artikels:', error);
+                    console.error('Error fetching boards:', error);
                 });
         },
         editArtikel(artikel) {
-            this.selectedArtikel = { ...artikel };
-            this.artics = false;
+            this.selectedBoard = { ...artikel };
+            this.bords = false;
             this.select = true;
         },
         onFileChange(e) {
             this.img = e.target.files[0];
         },
-        onFileChanges(e) {
-            this.img2 = e.target.files[0];
-        },
         updateArtikel() {
             const formData = new FormData();
-            formData.append('judul', this.selectedArtikel.judul);
-            formData.append('p1', this.selectedArtikel.p1);
-            formData.append('p2', this.selectedArtikel.p2);
-            formData.append('p3', this.selectedArtikel.p3);
-            formData.append('p4', this.selectedArtikel.p4);
-            formData.append('p5', this.selectedArtikel.p5);
-            formData.append('author', this.selectedArtikel.author);
-            formData.append('tanggal', this.selectedArtikel.tanggal);
+            formData.append('judul', this.selectedBoard.judul);
+            formData.append('jam', this.selectedBoard.jam);
+            formData.append('tempat', this.selectedBoard.tempat);
+            formData.append('tanggal', this.selectedBoard.tanggal);
             if (this.img) formData.append('img', this.img);
-            if (this.img2) formData.append('img2', this.img2);
 
-            artikelService.update(this.selectedArtikel._id, formData)
+            boardApi.update(this.selectedBoard._id, formData)
                 .then(response => {
-                    const index = this.artikels.findIndex(artikel => artikel._id === response.data.data._id);
-                    this.$set(this.artikels, index, response.data.data);
-                    this.selectedArtikel = null;
+                    const index = this.boards.findIndex(artikel => artikel._id === response.data.data._id);
+                    this.$set(this.boards, index, response.data.data);
+                    this.selectedBoard = null;
                     this.img = null;
-                    this.img2 = null;
                     alert('Artikel updated successfully');
                 })
                 .catch(error => {
@@ -204,9 +168,6 @@ export default {
         },
         getFullImgPath(img) {
             return `http://192.168.1.104:3000/${img}`;
-        },
-        getFullImgPath2(img2) {
-            return `http://192.168.1.104:3000/${img2}`;
         },
     },
 };

@@ -39,7 +39,7 @@ app
   .use(MotionPlugin)
   .use(VueGoogleMaps, {
     load: {
-      key: "AIzaSyBmvubCaHldEux2HCbbDx5NqCFiKmJWHJM",
+      key: "AIzaSyCBug1WwztG5xFF-oqtolVTEi74vqDdBRc",
       libraries: "places",
     },
   })

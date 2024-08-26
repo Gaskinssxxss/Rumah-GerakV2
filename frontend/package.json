@@ -27,6 +27,7 @@
     "pdf-lib": "^1.17.1",
     "plotly.js-dist-min": "^2.34.0",
     "simple-auth": "file:..",
+    "socket.io-client": "^4.7.5",
     "swiper": "^11.1.5",
     "vue": "^3.2.13",
     "vue-3d-model": "^1.4.1",

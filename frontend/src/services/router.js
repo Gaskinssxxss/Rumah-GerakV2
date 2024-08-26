@@ -21,6 +21,9 @@ import NotFound from "@/views/404Page";
 import Forbidden from "@/views/403Page";
 import updateKegiatan from "@/views/updateKegiatan.vue";
 import laporanIsu from "@/views/laporanIsu.vue";
+import LiveChat from "@/views/LiveChat.vue";
+import boardContain from "@/views/boardContain.vue";
+import InforBoard from "@/views/InforBoard.vue";
 
 const routes = [
   {
@@ -29,6 +32,36 @@ const routes = [
     component: HomeView,
     meta: {
       title: "BERANDA",
+      authRequired: false,
+      authForbidden: false,
+    },
+  },
+  {
+    path: "/board",
+    name: "Papan",
+    component: InforBoard,
+    meta: {
+      title: "PAPAN",
+      authRequired: false,
+      authForbidden: false,
+    },
+  },
+  {
+    path: "/board/:id",
+    name: "PapanInformasi",
+    component: boardContain,
+    meta: {
+      title: "PAPAN INFORMASI",
+      authRequired: false,
+      authForbidden: false,
+    },
+  },
+  {
+    path: "/chat/user",
+    name: "Live Chat User",
+    component: LiveChat,
+    meta: {
+      title: "Live Chat User",
       authRequired: false,
       authForbidden: false,
     },

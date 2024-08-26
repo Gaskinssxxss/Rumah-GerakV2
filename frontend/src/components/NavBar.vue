@@ -49,6 +49,16 @@
                     </router-link>
                 </div>
                 <div class="bg-black">
+                    <router-link to="/board" @click="closeNavbar">
+                        <div
+                            class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
+                            <button>
+                                <h1 class="uppercase text-3xl py-1">Papan Informasi</h1>
+                            </button>
+                        </div>
+                    </router-link>
+                </div>
+                <div class="bg-black">
                     <router-link to="/profile-kandidat" @click="closeNavbar">
                         <div
                             class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">

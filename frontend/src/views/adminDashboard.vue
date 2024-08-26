@@ -27,6 +27,14 @@
                 <div class="flex text-2xl">
                     <div class="w-[28rem] pr-6 overflow-y-auto h-[38.5rem]">
                         <div class="bg-black">
+                            <div @click="livechat"
+                                class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 hover:text-gray-200 bg-gray-200 text-black hover:bg-che p-2">
+                                <h1>
+                                    Live Chat
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="bg-black">
                             <div @click="showRelawan"
                                 class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 hover:text-gray-200 bg-gray-200 text-black hover:bg-che p-2">
                                 <h1>
@@ -151,6 +159,32 @@
                             </div>
                         </div>
                         <div class="bg-black">
+                            <div @click="ManageBoard"
+                                class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 hover:text-gray-200 bg-gray-200 text-black hover:bg-che p-2">
+                                <h1>
+                                    Board
+                                </h1>
+                            </div>
+                            <div @click="createBoard"
+                                class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 text-black bg-sun hover:text-gray-200 font-semibold hover:bg-che text-xl px-2 uppercase tracking-wider">
+                                <h1>
+                                    Buat Board
+                                </h1>
+                            </div>
+                            <div @click="editsBoard"
+                                class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 text-black bg-sun hover:text-gray-200 font-semibold hover:bg-che text-xl px-2 uppercase tracking-wider">
+                                <h1>
+                                    Edit Board
+                                </h1>
+                            </div>
+                            <div @click="deletesBoard"
+                                class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 text-black bg-sun hover:text-gray-200 font-semibold hover:bg-che text-xl px-2 uppercase tracking-wider">
+                                <h1>
+                                    Hapus Board
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="bg-black">
                             <div @click="manageArtikel"
                                 class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 hover:text-gray-200 bg-gray-200 text-black hover:bg-che p-2">
                                 <h1>
@@ -205,6 +239,11 @@
                     </div>
                     <div class="max-w-[65rem] w-full">
                         <div class="bg-gray-200">
+                            <div>
+                                <div v-if="liveChats" class="bg-gray-100 p-5 rounded h-[38.5rem] text-3xl">
+                                    <AdminLiveChat />
+                                </div>
+                            </div>
                             <div v-if="petaRelawan">
                                 <div class="flex justify-between">
                                     <h1 class="px-6 py-2 text-black text-4xl">Peta Relawan</h1>
@@ -922,6 +961,51 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div v-if="showCreateBoard" class="bg-gray-100 p-5 rounded h-[38.5rem]">
+                                    <h1 class="text-3xl">Kamu Berada Di Area Managemen Papan Informasi.</h1>
+                                    <div class="text-xl pt-6">
+                                        <h1>Terdapat Beberapa Fitur Untuk untuk Mengelola Papan Informasi yang Tersedia.
+                                        </h1>
+                                        <div class="pt-6">
+                                            <div>
+                                                <h1>* Buat Informasi</h1>
+                                                <div class="pl-6 pb-2">
+                                                    <h1>Dimana Tim Bisa Membuat Informasi-Informasi Terkait Agenda
+                                                        Kandidat dan lain lain.
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h1>* Edit Informasi</h1>
+                                                <div class="pl-6 pb-2">
+                                                    <h1>Dimana Tim Bisa melakukan modifikasi terhadap
+                                                        Informasi-Informasi Terkait Agenda Kandidat dan lain lain yang
+                                                        telah terpublish.</h1>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h1>* Hapus Informasi</h1>
+                                                <div class="pl-6 pb-2">
+                                                    <h1>Dimana Tim Bisa menghapus informasi terkait agenda kandidat dan
+                                                        lain-lain yang telah terpublish.
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="showCreateInfor" class="bg-gray-100 p-5 rounded h-[38.5rem]">
+                                    <h2 class="text-2xl mb-4">Buat Informasi</h2>
+                                    <addBoard />
+                                </div>
+                                <div v-if="showEditInfor" class="bg-gray-100 p-5 rounded h-[38.5rem]">
+                                    <h2 class="text-2xl mb-4">Edit Informasi</h2>
+                                    <editBoard />
+                                </div>
+                                <div v-if="showDeleteInfor" class="bg-gray-100 p-5 rounded h-[38.5rem]">
+                                    <h2 class="text-2xl mb-4">Delete Informasi</h2>
+                                    <deleteBoard />
+                                </div>
                                 <div v-if="showCreateArtikel" class="bg-gray-100 p-5 rounded h-[38.5rem]">
                                     <h2 class="text-2xl mb-4">Buat Artikel</h2>
                                     <addArtikel />
@@ -1007,9 +1091,13 @@ import kegRelawanMap from "@/views/kegiatanRelawanMap"
 import editArtikel from './editArtikel.vue';
 import deleteArtikel from './deleteArtikel.vue';
 import addArtikel from './addArtikel.vue';
+import addBoard from './addBoard.vue';
+import editBoard from './editBoard.vue';
+import deleteBoard from './deleteBoard.vue';
 import addGallery from './addGallery.vue';
 import editGallery from './editGallery.vue';
 import deleteGallery from './deleteGallery.vue';
+import AdminLiveChat from './AdminLiveChat.vue';
 import 'jspdf-autotable';
 import VueQrcode from "@chenfengyuan/vue-qrcode";
 import api from '@/services/api';
@@ -1049,7 +1137,11 @@ export default {
         addGallery,
         editGallery,
         VueQrcode,
-        deleteGallery
+        deleteGallery,
+        AdminLiveChat,
+        addBoard,
+        editBoard,
+        deleteBoard
     },
     data() {
         return {
@@ -1107,6 +1199,20 @@ export default {
             showMessagePopups: false,
             message: '',
             messagex: '',
+            selectedRelawanId: '',
+            selectedRelawanHp: '',
+            qrCode: "",
+            qr: false,
+            loading: false,
+            token: '',
+            bali: false,
+            pdfGeneratedStatus: {},
+            pdfGeneratedTimStatus: {},
+            liveChats: false,
+            showCreateBoard: false,
+            showCreateInfor: false,
+            showEditInfor: false,
+            showDeleteInfor: false,
             messages: `Nama Kegiatan: [Nama Kegiatan]
 Tempat: [Nama Tempat/Alamat Lengkap]
 Tanggal: [Hari, Tanggal]
@@ -1125,15 +1231,6 @@ Kontak Informasi:
 Catatan Tambahan:
 [Informasi tambahan yang perlu diketahui oleh peserta atau tamu undangan.]`,
             messagesx: `hello World`,
-            selectedRelawanId: '',
-            selectedRelawanHp: '',
-            qrCode: "",
-            qr: false,
-            loading: false,
-            token: '',
-            bali: false,
-            pdfGeneratedStatus: {},
-            pdfGeneratedTimStatus: {},
         };
     },
     methods: {
@@ -1184,6 +1281,11 @@ Catatan Tambahan:
             this.dataStatsBaliho = false;
             this.dataStatsKegRelawan = false;
             this.statsKegiatanRelawan = false;
+            this.liveChats = false;
+            this.showCreateBoard = false;
+            this.showCreateInfor = false;
+            this.showEditInfor = false;
+            this.showDeleteInfor = false
         },
         async fetchRelawanToken(id) {
             try {
@@ -1823,9 +1925,29 @@ Catatan Tambahan:
             this.balihow = true;
             this.closeInfoWindow();
         },
+        editsBoard() {
+            this.resetViews();
+            this.showEditInfor = true
+        },
+        createBoard() {
+            this.resetViews();
+            this.showCreateInfor = true;
+        },
+        ManageBoard() {
+            this.resetViews();
+            this.showCreateBoard = true;
+        },
+        deletesBoard() {
+            this.resetViews();
+            this.showDeleteInfor = true;
+        },
         ManageGallery() {
             this.resetViews();
             this.generalGallery = true;
+        },
+        livechat() {
+            this.resetViews();
+            this.liveChats = true;
         },
         manageArtikel() {
             this.resetViews();
@@ -1928,7 +2050,7 @@ Catatan Tambahan:
             this.timrelawanDelete = true;
         },
         getFullImgPath(img) {
-            return `https://rumahgerak.com/${img}`;
+            return `http://192.168.1.104:3000/${img}`;
         },
     },
     mounted() {

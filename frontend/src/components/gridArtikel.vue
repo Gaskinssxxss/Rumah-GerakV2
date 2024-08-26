@@ -113,7 +113,7 @@ export default {
     methods: {
         getFullImgPath(img) {
             const correctedPath = img.replace(/\\/g, '/');
-            return `https://rumahgerak.com/${correctedPath}`;
+            return `http://192.168.1.104:3000/${correctedPath}`;
         },
         async buka(id) {
             await this.$router.push({ name: 'PORTAL', params: { id } });
