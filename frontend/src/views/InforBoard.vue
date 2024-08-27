@@ -5,16 +5,45 @@
                 <h1 class="tracking-widest">PAPAN INFORMASI</h1>
                 <h1 class="text-sm tracking-widest">{ Agenda Kandidat }</h1>
             </div>
-            <div class="bg-gray-200 border-2 border-black text-start font-Jet text-sm overflow-y-auto h-96">
+            <div class="bg-gray-200 border-2 border-black text-start font-Jet text-sm overflow-y-auto h-96 px-4 py-4">
                 <div v-if="board.length > 0">
                     <div v-for="boardy in board" :key="boardy._id" class="border border-black py-2 px-4">
                         <div class="text-lg">
                             <h1 class="text-black">{{ boardy.judul }}</h1>
                         </div>
-                        <div class="text-xs">
-                            <h1>Jam : {{ boardy.jam }}</h1>
-                            <h1>Tanggal : {{ boardy.tanggal }}</h1>
-                            <h1>Tempat : {{ boardy.tempat }}</h1>
+                        <div class="text-xs space-y-2 pt-2">
+                            <div class="flex space-x-4">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                </div>
+                                <h1>{{ boardy.jam }}</h1>
+                            </div>
+                            <div class="flex space-x-4">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+                                    </svg>
+                                </div>
+                                <h1>{{ boardy.tanggal }}</h1>
+                            </div>
+                            <div class="flex space-x-4">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                    </svg>
+                                </div>
+                                <h1>{{ boardy.tempat }}</h1>
+                            </div>
                         </div>
                         <div class="flex justify-between pt-4 pb-2">
                             <button @click="buka(boardy._id)" class="bg-black rounded-md">
@@ -95,8 +124,9 @@ export default {
         },
         async tanyaAdmin(judul) {
             const message = `Saya Ingin Bertanya Terkait kegiatan "${judul}"`;
-            await this.$router.push({ path: '/chat/user', query: { message } });
-        },
+            const encodedMessage = btoa(message); // Encode the message to Base64
+            await this.$router.push({ path: '/chat/user', query: { message: encodedMessage } });
+        }
     }
 }
 </script>

@@ -109,10 +109,10 @@ export default {
     },
     methods: {
         getFullImgPath(img) {
-            return `http://192.168.1.104:3000/${img}`;
+            return `http://rumahgerak.com/${img}`;
         },
         getFullImgPath2(img2) {
-            return `http://192.168.1.104:3000/${img2}`;
+            return `http://rumahgerak.com/${img2}`;
         },
         scrollToTop() {
             window.scrollTo({

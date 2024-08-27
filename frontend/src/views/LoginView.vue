@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import { sanitizeInput } from '@/services/inputSanitizer';
+
 export default {
   name: "LoginView",
   data() {
@@ -50,7 +52,9 @@ export default {
     },
     async login() {
       try {
-        await this.$store.dispatch("login", { email: this.email, password: this.password });
+        const sanitizeEmai = sanitizeInput(this.email, 'email');
+        const sanitizePasswd = sanitizeInput(this.password, 'alphanumeric')
+        await this.$store.dispatch("login", { email: sanitizeEmai, password: sanitizePasswd });
         if (this.isUserLoggedIn) {
           this.$toast.success("Authentication succeeded.", { position: "bottom-left", duration: 1000 });
           await this.$router.push("/warbase");

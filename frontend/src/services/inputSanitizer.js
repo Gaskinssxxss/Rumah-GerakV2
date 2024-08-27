@@ -4,7 +4,8 @@ const globalWhitelist = {
   phone: /^[0-9+]+$/,
   date: /^\d{4}-\d{2}-\d{2}$/, // Allows date format YYYY-MM-DD
   time: /^\d{2}:\d{2}$/,
-  alphanumeric: /^[a-zA-Z0-9\s]+$/, // Allows time format HH:MM// Allows digits and '+' (for phone numbers)
+  alphanumeric: /^[a-zA-Z0-9\s]+$/,
+  email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
 };
 
 export function sanitizeInput(value, type = "text") {

@@ -67,7 +67,7 @@ export default {
         }
     },
     mounted() {
-        this.socket = io('http://192.168.1.104:3000/');
+        this.socket = io('http://rumahgerak.com/');
         const savedChats = JSON.parse(localStorage.getItem('activeChats')) || {};
 
         // Fetch active chats and filter those that have messages
@@ -146,7 +146,7 @@ export default {
         }
     },
     mounted() {
-        this.socket = io('http://192.168.1.104:3000/');
+        this.socket = io('http://rumahgerak.com/');
         const savedChats = JSON.parse(localStorage.getItem('activeChats')) || {};
 
         api.get('chats/active')
@@ -269,7 +269,7 @@ export default {
         }
     },
     mounted() {
-        this.socket = io('http://192.168.1.104:3000/');
+        this.socket = io('http://rumahgerak.com/');
 
         api.get('chats/active')
             .then(res => res.data)
@@ -353,7 +353,7 @@ export default {
         }
     },
     mounted() {
-        this.socket = io('http://192.168.1.104:3000/');
+        this.socket = io('http://rumahgerak.com/');
         this.socket.on('adminMessage', (msg) => {
             console.log("Pesan diterima di admin:", msg);
             const { visitorID, sender, text } = msg;

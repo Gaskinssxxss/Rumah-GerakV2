@@ -72,7 +72,7 @@ export default {
             this.initializeChat();
         },
         initializeChat() {
-            this.socket = io('http://192.168.1.104:3000/');
+            this.socket = io('http://rumahgerak.com/');
 
             this.socket.emit('join', { visitorID: this.visitorID });
 
@@ -86,7 +86,7 @@ export default {
                     }
                     const queryMessage = this.$route.query.message;
                     if (queryMessage) {
-                        this.message = queryMessage;
+                        this.message = atob(queryMessage);
                         this.sendMessage();
                     }
                 })
