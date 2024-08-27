@@ -12,7 +12,7 @@ const app = express();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http, {
   cors: {
-    origin: "http://rumahgerak.com",
+    origin: "https://rumahgerak.com/",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -82,10 +82,10 @@ io.on("connection", (socket) => {
   });
 });
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "production") {
   app.use(
     cors({
-      origin: "http://rumahgerak.com",
+      origin: "https://rumahgerak.com",
       credentials: true,
     })
   );
@@ -171,7 +171,7 @@ http.listen(port, () => {
 // const app = express();
 
 // // Middleware
-// if (process.env.NODE_ENV === "development") {
+// if (process.env.NODE_ENV === "production") {
 //   app.use(
 //     cors({
 //       origin: "http://192.168.1.107:8080",

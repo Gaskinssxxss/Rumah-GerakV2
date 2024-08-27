@@ -104,7 +104,7 @@ export default {
     },
     methods: {
         getFullImgPath(img) {
-            return `http://rumahgerak.com/${img}`;
+            return `https://rumahgerak.com/${img}`;
         },
         scrollToTop() {
             window.scrollTo({

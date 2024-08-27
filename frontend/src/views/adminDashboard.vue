@@ -2050,7 +2050,7 @@ Catatan Tambahan:
             this.timrelawanDelete = true;
         },
         getFullImgPath(img) {
-            return `http://rumahgerak.com/${img}`;
+            return `https://rumahgerak.com/${img}`;
         },
     },
     mounted() {

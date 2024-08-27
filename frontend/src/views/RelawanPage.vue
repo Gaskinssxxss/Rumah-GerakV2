@@ -111,7 +111,7 @@ export default {
             }
         },
         getFullImgPath(img) {
-            return `http://rumahgerak.com/${img}`;
+            return `https://rumahgerak.com/${img}`;
         },
         async generatePDF(timrelawan) {
             const pdf = new jsPDF();
@@ -431,7 +431,7 @@ export default {
             }
         },
         getFullImgPath(img) {
-            return `http://rumahgerak.com/${img}`;
+            return `https://rumahgerak.com/${img}`;
         },
     }
 }
