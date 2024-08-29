@@ -90,6 +90,10 @@ export default {
             artikelService.delete(id)
                 .then(() => {
                     this.artikels = this.artikels.filter(artikel => artikel._id !== id);
+                    alert('Artikel Berhasil Di hapus')
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1000);
                 })
                 .catch(error => {
                     console.error('Error deleting artikel:', error);

@@ -65,7 +65,9 @@ export default {
             boardApi.create(formData)
                 .then(() => {
                     alert('success')
-                    this.$router.push('/warbase');
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1000);
                 })
                 .catch(error => {
                     console.error('Error creating artikel:', error);

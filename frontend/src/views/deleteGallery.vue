@@ -90,6 +90,10 @@ export default {
             galleryService.delete(id)
                 .then(() => {
                     this.gallerys = this.gallerys.filter(gallery => gallery._id !== id);
+                    alert('Gallery Berhasil Di hapus')
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1000);
                 })
                 .catch(error => {
                     console.error('Error deleting gallery:', error);

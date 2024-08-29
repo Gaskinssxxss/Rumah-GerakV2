@@ -12,7 +12,7 @@ const app = express();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http, {
   cors: {
-    origin: "https://rumahgerak.com/",
+    origin: "https://rumahgerak.com",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -38,10 +38,9 @@ io.on("connection", (socket) => {
     const chat = await Chat.findOne({ visitorID });
 
     if (chat && chat.isActive) {
-      // Cek apakah sesi masih aktif
       chat.messages.push({ sender, text });
       await chat.save();
-
+      console.log("ada Pesan Masuk");
       io.to(visitorID).emit("chatMessage", { sender, text });
       io.emit("adminMessage", { visitorID, sender, text });
     } else {
@@ -82,7 +81,7 @@ io.on("connection", (socket) => {
   });
 });
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "development") {
   app.use(
     cors({
       origin: "https://rumahgerak.com",
@@ -92,6 +91,7 @@ if (process.env.NODE_ENV === "production") {
 } else {
   app.use(cors());
 }
+
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -171,7 +171,7 @@ http.listen(port, () => {
 // const app = express();
 
 // // Middleware
-// if (process.env.NODE_ENV === "production") {
+// if (process.env.NODE_ENV === "development") {
 //   app.use(
 //     cors({
 //       origin: "http://192.168.1.107:8080",

@@ -62,38 +62,78 @@
       </div>
     </div>
     <div class="grid grid-cols-2 px-8 gap-6">
-      <div class="bg-black rounded-md">
-        <div
-          class="border-2 border-black relative -top-1 -left-1 bg-nasdem rounded-md flex justify-center items-center">
-          <div class="p-2 text-center">
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                stroke="#d6d6d6" class="size-8 mx-auto">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
-              </svg>
+      <div>
+        <div v-if="totalRelawan !== 0" class="bg-black rounded-md">
+          <div
+            class="border-2 border-black relative -top-1 -left-1 bg-nasdem rounded-md flex justify-center items-center">
+            <div class="p-2 text-center">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                  stroke="#d6d6d6" class="size-8 mx-auto">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                </svg>
+              </div>
+              <div v-if="totalRelawan" class="font-Karantina text-gray-300 text-3xl uppercase font-bold">
+                <h1 class="text-xl font-normal tracking-wider">Relawan</h1>
+                <h1 class="-mt-2 text-2xl">{{ totalRelawan }}</h1>
+              </div>
             </div>
-            <div v-if="totalRelawan" class="font-Karantina text-gray-300 text-3xl uppercase font-bold">
-              <h1 class="text-xl font-normal tracking-wider">Relawan</h1>
-              <h1 class="-mt-2 text-2xl">{{ totalRelawan }}</h1>
+          </div>
+        </div>
+        <div v-else class="bg-black rounded-md">
+          <div
+            class="border-2 border-black relative -top-1 -left-1 bg-nasdem rounded-md flex justify-center items-center">
+            <div class="p-2 text-center">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                  stroke="#d6d6d6" class="size-8 mx-auto">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                </svg>
+              </div>
+              <div class="font-Karantina text-gray-300 text-3xl uppercase font-bold">
+                <h1 class="text-xl font-normal tracking-wider">Relawan</h1>
+                <h1 class="-mt-2 text-2xl">0</h1>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="bg-black rounded-md">
-        <div
-          class="border-2 border-black relative -top-1 -left-1 bg-nasdem rounded-md flex justify-center items-center">
-          <div class="p-2 text-center">
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                stroke="#d6d6d6" class="size-8 mx-auto">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                  d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
-              </svg>
+      <div>
+        <div v-if="baliho !== 0" class="bg-black rounded-md">
+          <div
+            class="border-2 border-black relative -top-1 -left-1 bg-nasdem rounded-md flex justify-center items-center">
+            <div class="p-2 text-center">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                  stroke="#d6d6d6" class="size-8 mx-auto">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
+                </svg>
+              </div>
+              <div v-if="baliho" class="font-Karantina text-gray-300 text-3xl uppercase font-bold">
+                <h1 class="text-xl font-normal tracking-wider">Posko</h1>
+                <h1 class="-mt-2 text-2xl">{{ baliho }}</h1>
+              </div>
             </div>
-            <div v-if="baliho" class="font-Karantina text-gray-300 text-3xl uppercase font-bold">
-              <h1 class="text-xl font-normal tracking-wider">Posko</h1>
-              <h1 class="-mt-2 text-2xl">{{ baliho }}</h1>
+          </div>
+        </div>
+        <div class="bg-black rounded-md">
+          <div
+            class="border-2 border-black relative -top-1 -left-1 bg-nasdem rounded-md flex justify-center items-center">
+            <div class="p-2 text-center">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                  stroke="#d6d6d6" class="size-8 mx-auto">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
+                </svg>
+              </div>
+              <div class="font-Karantina text-gray-300 text-3xl uppercase font-bold">
+                <h1 class="text-xl font-normal tracking-wider">Posko</h1>
+                <h1 class="-mt-2 text-2xl">0</h1>
+              </div>
             </div>
           </div>
         </div>

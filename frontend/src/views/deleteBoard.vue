@@ -87,7 +87,10 @@ export default {
             boardApi.delete(id)
                 .then(() => {
                     this.boards = this.boards.filter(board => board._id !== id);
-                    alert('Hapus Informasi Success')
+                    alert('Informasi Berhasil Di hapus')
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1000);
                 })
                 .catch(error => {
                     console.error('Error deleting board:', error);

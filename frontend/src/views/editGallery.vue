@@ -165,7 +165,10 @@ export default {
                     this.selectedGalerry = null;
                     this.img = null;
                     this.img2 = null;
-                    alert('Artikel updated successfully');
+                    alert('Gallery updated success');
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1000);
                 })
                 .catch(error => {
                     console.error('Error updating gallery:', error);

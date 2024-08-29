@@ -192,11 +192,15 @@ export default {
             artikelService.update(this.selectedArtikel._id, formData)
                 .then(response => {
                     const index = this.artikels.findIndex(artikel => artikel._id === response.data.data._id);
-                    this.$set(this.artikels, index, response.data.data);
+                    // this.$set(this.artikels, index, response.data.data);
+                    this.artikels[index] = response.data.data;
                     this.selectedArtikel = null;
                     this.img = null;
                     this.img2 = null;
-                    alert('Artikel updated successfully');
+                    alert('Artikel updated success');
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1000);
                 })
                 .catch(error => {
                     console.error('Error updating artikel:', error);

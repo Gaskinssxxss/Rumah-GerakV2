@@ -81,6 +81,7 @@ export default {
                             unread: savedChats[chat.visitorID]?.unread || false
                         };
                     }
+
                     return acc;
                 }, {});
                 this.saveChatsToLocalStorage();
@@ -146,7 +147,7 @@ export default {
         }
     },
     mounted() {
-        this.socket = io('https://rumahgerak.com/');
+        this.socket = io('http://172.20.10.5/');
         const savedChats = JSON.parse(localStorage.getItem('activeChats')) || {};
 
         api.get('chats/active')
@@ -269,7 +270,7 @@ export default {
         }
     },
     mounted() {
-        this.socket = io('https://rumahgerak.com/');
+        this.socket = io('http://172.20.10.5/');
 
         api.get('chats/active')
             .then(res => res.data)
@@ -353,7 +354,7 @@ export default {
         }
     },
     mounted() {
-        this.socket = io('https://rumahgerak.com/');
+        this.socket = io('http://172.20.10.5/');
         this.socket.on('adminMessage', (msg) => {
             console.log("Pesan diterima di admin:", msg);
             const { visitorID, sender, text } = msg;

@@ -16,42 +16,12 @@ const Board = require("../model/board");
 const jwt = require("jsonwebtoken");
 const { SECRET, MAX_AGE } = require("../consts");
 const { requireLogin } = require("../middleware/authentication");
+const logActivity = require("../middleware/logActivity");
 const { Client, NoAuth } = require("whatsapp-web.js");
 const multer = require("multer");
 const crypto = require("crypto");
 
 const router = Router();
-
-const createJwt = (payload) => {
-  return jwt.sign({ payload }, SECRET, { expiresIn: MAX_AGE });
-};
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + "-" + file.originalname);
-  },
-});
-
-const encryptData = (data) => {
-  const algorithm = "aes-256-cbc";
-  const key = process.env.ENCRYPTION_KEY;
-  const iv = crypto.randomBytes(16);
-
-  const cipher = crypto.createCipheriv(algorithm, key, iv);
-  let encrypted = cipher.update(JSON.stringify(data), "utf8", "hex");
-  encrypted += cipher.final("hex");
-
-  return {
-    iv: iv.toString("hex"),
-    data: encrypted,
-  };
-};
-
-const upload = multer({ storage: storage });
 
 const client = new Client({
   authStrategy: new NoAuth(),
@@ -85,6 +55,125 @@ client.on("ready", () => {
 client.on("authenticated", () => {
   console.log("Client terautentikasi");
 });
+
+const createJwt = (payload) => {
+  return jwt.sign({ payload }, SECRET, { expiresIn: MAX_AGE });
+};
+
+/**
+ * @route POST api/users/register
+ * @desc Register new user
+ * @access Private
+ */
+router.post("/users/register", (req, res) => {
+  const { username, email, password } = req.body;
+  User.create({ username, email, password })
+    .then(() => {
+      return res.status(200).json({ message: "success" });
+    })
+    .catch((error) => {
+      console.log(error);
+      return res.status(400).json({ message: "failed", error });
+    });
+});
+
+/**
+ * @route POST api/users/login
+ * @desc Login user
+ * @access Public
+ */
+router.post("/users/login", (req, res) => {
+  const { email, password } = req.body;
+  User.findOne({ email: email, password: password })
+    .then((user) => {
+      if (!user) {
+        return res
+          .status(401)
+          .json({ message: "failed", error: "wrong-credentials" });
+      }
+      const maxAge = 3 * 24 * 60 * 60;
+      const token = createJwt(user._id, maxAge);
+      res.cookie("auth", token, { httpOnly: true, maxAge: maxAge * 10 });
+      clientReady = false;
+      client.on("qr", handleQR);
+      client.initialize();
+      return res.status(200).json({ message: "success", data: user });
+    })
+    .catch((err) => {
+      return res.status(400).json({ message: "failed", err });
+    });
+});
+
+/**
+ * @route POST api/users/logout
+ * @desc Log user out
+ * @access Public
+ */
+router.post("/users/logout", requireLogin, logActivity, (req, res) => {
+  if (clientReady) {
+    client
+      .logout()
+      .then(() => {
+        console.log("Client berhasil logout");
+        client.off("qr", handleQR);
+      })
+      .catch((error) => {
+        console.error("Error saat logout:", error);
+      });
+  }
+  client.removeListener("qr", handleQR);
+  res.clearCookie("auth");
+  return res.status(200).json({ message: "success" });
+});
+
+/**
+ * @route GET api/users
+ * @desc Get authenticated user
+ * @access Private
+ */
+router.get("/users", (req, res) => {
+  const token = req.cookies.auth;
+  const _id = jwt.verify(token, SECRET).payload;
+  User.findOne({ _id }, { username: 1, email: 1, registrationDate: 1 })
+    .then((user) => {
+      const resData = { message: "success", data: user };
+      const encryptedData = encryptData(resData);
+      return res.status(200).json(encryptedData);
+    })
+    .catch((err) => {
+      console.log(err);
+      return res
+        .status(401)
+        .json({ message: "error", code: "unauthenticated-access" });
+    });
+});
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + "-" + file.originalname);
+  },
+});
+
+const encryptData = (data) => {
+  const algorithm = "aes-256-cbc";
+  const key = process.env.ENCRYPTION_KEY;
+  const iv = crypto.randomBytes(16);
+
+  const cipher = crypto.createCipheriv(algorithm, key, iv);
+  let encrypted = cipher.update(JSON.stringify(data), "utf8", "hex");
+  encrypted += cipher.final("hex");
+
+  return {
+    iv: iv.toString("hex"),
+    data: encrypted,
+  };
+};
+
+const upload = multer({ storage: storage });
 
 router.get("/chat/:visitorID", async (req, res) => {
   try {
@@ -156,53 +245,65 @@ router.get("/board/:id", (req, res) => {
     .catch((error) => res.status(400).json({ message: "error", error }));
 });
 
-router.post("/board", upload.single("img"), (req, res) => {
-  const { judul, jam, tempat, tanggal } = req.body;
-  const img = req.file ? req.file.path : "";
+router.post(
+  "/board",
+  upload.single("img"),
+  requireLogin,
+  logActivity,
+  (req, res) => {
+    const { judul, jam, tempat, tanggal } = req.body;
+    const img = req.file ? req.file.path : "";
 
-  Board.create({
-    judul,
-    img,
-    tempat,
-    jam,
-    tanggal,
-  })
-    .then((boards) => {
-      res.status(201).json({ message: "success", data: boards });
+    Board.create({
+      judul,
+      img,
+      tempat,
+      jam,
+      tanggal,
     })
-    .catch((error) => res.status(400).json({ message: "error", error }));
-});
+      .then((boards) => {
+        res.status(201).json({ message: "success", data: boards });
+      })
+      .catch((error) => res.status(400).json({ message: "error", error }));
+  }
+);
 
-router.put("/board/edit/:id", upload.single("img"), (req, res) => {
-  const { id } = req.params;
-  const { judul, jam, tempat, tanggal } = req.body;
+router.put(
+  "/board/edit/:id",
+  upload.single("img"),
+  requireLogin,
+  logActivity,
+  (req, res) => {
+    const { id } = req.params;
+    const { judul, jam, tempat, tanggal } = req.body;
 
-  Board.findById(id)
-    .then((boards) => {
-      if (!boards) {
-        return res.status(404).json({ message: "boards not found" });
-      }
+    Board.findById(id)
+      .then((boards) => {
+        if (!boards) {
+          return res.status(404).json({ message: "boards not found" });
+        }
 
-      const img = req.files["img"] ? req.files["img"][0].path : boards.img;
+        const img = req.file ? req.file.path : boards.img;
 
-      boards.judul = judul || boards.judul;
-      boards.img = img;
-      boards.tempat = tempat || boards.tempat;
-      boards.jam = jam || boards.jam;
-      boards.tanggal = tanggal || boards.tanggal;
+        boards.judul = judul || boards.judul;
+        boards.img = img;
+        boards.tempat = tempat || boards.tempat;
+        boards.jam = jam || boards.jam;
+        boards.tanggal = tanggal || boards.tanggal;
 
-      return boards.save();
-    })
-    .then((updatedBoards) => {
-      res.status(200).json({ message: "success", data: updatedBoards });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.status(500).json({ message: "error", error });
-    });
-});
+        return boards.save();
+      })
+      .then((updatedBoards) => {
+        res.status(200).json({ message: "success", data: updatedBoards });
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).json({ message: "error", error });
+      });
+  }
+);
 
-router.delete("/board/delete/:id", (req, res) => {
+router.delete("/board/delete/:id", requireLogin, logActivity, (req, res) => {
   const { id } = req.params;
   Board.findByIdAndDelete(id)
     .then(() => res.status(200).json({ message: "success" }))
@@ -314,7 +415,7 @@ router.post("/laporan", upload.single("foto"), (req, res) => {
     .catch((error) => res.status(400).json({ message: "error", error }));
 });
 
-router.put("/laporan/:id/status", (req, res) => {
+router.put("/laporan/:id/status", requireLogin, logActivity, (req, res) => {
   const { id } = req.params;
   const { statusLaporan } = req.body;
 
@@ -410,7 +511,7 @@ router.post("/api/verifyToken", async (req, res) => {
   }
 });
 
-router.post("/broadcast", async (req, res) => {
+router.post("/broadcast", requireLogin, logActivity, async (req, res) => {
   const { message } = req.body;
   if (!message) {
     return res.status(400).json({ message: "Message is required" });
@@ -464,59 +565,69 @@ router.get("/timrelawan/:id", async (req, res) => {
     .catch((error) => res.status(400).json({ message: "error", error }));
 });
 
-router.post("/confirm/relawan/:hp", async (req, res) => {
-  const { message } = req.body;
-  const { hp } = req.params;
-  if (!message) {
-    return res.status(400).json({ message: "Message is required" });
-  }
-  try {
-    const relawan = await Relawan.findOne({ hp }).exec();
-    if (!relawan) {
-      return res.status(404).json({ message: "Relawan not found" });
+router.post(
+  "/confirm/relawan/:hp",
+  requireLogin,
+  logActivity,
+  async (req, res) => {
+    const { message } = req.body;
+    const { hp } = req.params;
+    if (!message) {
+      return res.status(400).json({ message: "Message is required" });
     }
-    const numbers = relawan.hp;
-    const chatId = `${numbers}@c.us`;
     try {
-      await client.sendMessage(chatId, message);
-      res.status(200).send("Pesan berhasil dikirim ke semua nomor!");
+      const relawan = await Relawan.findOne({ hp }).exec();
+      if (!relawan) {
+        return res.status(404).json({ message: "Relawan not found" });
+      }
+      const numbers = relawan.hp;
+      const chatId = `${numbers}@c.us`;
+      try {
+        await client.sendMessage(chatId, message);
+        res.status(200).send("Pesan berhasil dikirim ke semua nomor!");
+      } catch (error) {
+        console.error(`Error saat mengirim pesan ke ${number}:`, error.message);
+      }
     } catch (error) {
-      console.error(`Error saat mengirim pesan ke ${number}:`, error.message);
+      console.error(`Error fetching relawan: ${error.message}`);
+      res
+        .status(500)
+        .json({ message: "Error fetching relawan", error: error.message });
     }
-  } catch (error) {
-    console.error(`Error fetching relawan: ${error.message}`);
-    res
-      .status(500)
-      .json({ message: "Error fetching relawan", error: error.message });
   }
-});
+);
 
-router.post("/confirm/timrelawan/:hp", async (req, res) => {
-  const { message } = req.body;
-  const { hp } = req.params;
-  if (!message) {
-    return res.status(400).json({ message: "Message is required" });
-  }
-  try {
-    const relawan = await TimRelawan.findOne({ hp }).exec();
-    if (!relawan) {
-      return res.status(404).json({ message: "Relawan not found" });
+router.post(
+  "/confirm/timrelawan/:hp",
+  requireLogin,
+  logActivity,
+  async (req, res) => {
+    const { message } = req.body;
+    const { hp } = req.params;
+    if (!message) {
+      return res.status(400).json({ message: "Message is required" });
     }
-    const numbers = relawan.hp;
-    const chatId = `${numbers}@c.us`;
     try {
-      await client.sendMessage(chatId, message);
-      res.status(200).send("Pesan berhasil dikirim ke semua nomor!");
+      const relawan = await TimRelawan.findOne({ hp }).exec();
+      if (!relawan) {
+        return res.status(404).json({ message: "Relawan not found" });
+      }
+      const numbers = relawan.hp;
+      const chatId = `${numbers}@c.us`;
+      try {
+        await client.sendMessage(chatId, message);
+        res.status(200).send("Pesan berhasil dikirim ke semua nomor!");
+      } catch (error) {
+        console.error(`Error saat mengirim pesan ke ${number}:`, error.message);
+      }
     } catch (error) {
-      console.error(`Error saat mengirim pesan ke ${number}:`, error.message);
+      console.error(`Error fetching relawan: ${error.message}`);
+      res
+        .status(500)
+        .json({ message: "Error fetching relawan", error: error.message });
     }
-  } catch (error) {
-    console.error(`Error fetching relawan: ${error.message}`);
-    res
-      .status(500)
-      .json({ message: "Error fetching relawan", error: error.message });
   }
-});
+);
 
 router.get("/kegiatan/relawan", (req, res) => {
   KegiatanRelawan.find()
@@ -569,6 +680,8 @@ router.post("/kegiatan/relawan", upload.single("video"), (req, res) => {
 router.put(
   "/kegiatan/relawan/:namaKegiatan",
   upload.single("video"),
+  requireLogin,
+  logActivity,
   (req, res) => {
     const { status } = req.body;
     const video = req.file ? req.file.path.replace(/\\/g, "/") : "";
@@ -599,86 +712,100 @@ router.put(
   }
 );
 
-router.put("/kegiatan/relawan/status/:namaKegiatan", async (req, res) => {
-  const { status } = req.body;
+router.put(
+  "/kegiatan/relawan/status/:namaKegiatan",
+  requireLogin,
+  logActivity,
+  async (req, res) => {
+    const { status } = req.body;
 
-  // Update data status kegiatan
-  const updateData = { status };
+    // Update data status kegiatan
+    const updateData = { status };
 
-  try {
-    const kegiatanRelawan = await KegiatanRelawan.findOneAndUpdate(
-      { namaKegiatan: req.params.namaKegiatan },
-      updateData,
-      { new: true }
-    );
+    try {
+      const kegiatanRelawan = await KegiatanRelawan.findOneAndUpdate(
+        { namaKegiatan: req.params.namaKegiatan },
+        updateData,
+        { new: true }
+      );
 
-    // Cek apakah kegiatan ditemukan
-    if (!kegiatanRelawan) {
-      return res
-        .status(404)
-        .json({ message: "Kegiatan relawan tidak ditemukan" });
-    }
+      // Cek apakah kegiatan ditemukan
+      if (!kegiatanRelawan) {
+        return res
+          .status(404)
+          .json({ message: "Kegiatan relawan tidak ditemukan" });
+      }
 
-    // Cek jika status adalah "Disetujui", kirim pesan broadcast
-    if (status === "Disetujui") {
-      if (clientReady) {
-        // Cari tim relawan berdasarkan kecamatan dan kelurahan kegiatan
-        const timRelawan = await TimRelawan.findOne({
-          kecamatan: kegiatanRelawan.kecamatan,
-          kelurahan: kegiatanRelawan.kelurahan,
-        });
+      // Cek jika status adalah "Disetujui", kirim pesan broadcast
+      if (status === "Disetujui") {
+        if (clientReady) {
+          // Cari tim relawan berdasarkan kecamatan dan kelurahan kegiatan
+          const timRelawan = await TimRelawan.findOne({
+            kecamatan: kegiatanRelawan.kecamatan,
+            kelurahan: kegiatanRelawan.kelurahan,
+          });
 
-        // Cek jika tim relawan ditemukan
-        if (timRelawan) {
-          const message = `Kegiatan ${kegiatanRelawan.namaKegiatan} telah disetujui! Mohon persiapkan diri Anda.`;
-          const chatId = `${timRelawan.hp}@c.us`;
+          // Cek jika tim relawan ditemukan
+          if (timRelawan) {
+            const message = `Kegiatan ${kegiatanRelawan.namaKegiatan} telah disetujui! Mohon persiapkan diri Anda.`;
+            const chatId = `${timRelawan.hp}@c.us`;
 
-          try {
-            await client.sendMessage(chatId, message);
-            console.log(`Pesan terkirim ke ${chatId}`);
-          } catch (error) {
-            console.error(`Gagal mengirim pesan ke ${chatId}:`, error.message);
+            try {
+              await client.sendMessage(chatId, message);
+              console.log(`Pesan terkirim ke ${chatId}`);
+            } catch (error) {
+              console.error(
+                `Gagal mengirim pesan ke ${chatId}:`,
+                error.message
+              );
+            }
+          } else {
+            console.log("Tim relawan tidak ditemukan.");
           }
         } else {
-          console.log("Tim relawan tidak ditemukan.");
+          console.log("WhatsApp Client is not ready.");
         }
-      } else {
-        console.log("WhatsApp Client is not ready.");
-      }
-    } else if (status === "Ditolak") {
-      if (clientReady) {
-        // Cari tim relawan berdasarkan kecamatan dan kelurahan kegiatan
-        const timRelawan = await TimRelawan.findOne({
-          kecamatan: kegiatanRelawan.kecamatan,
-          kelurahan: kegiatanRelawan.kelurahan,
-        });
+      } else if (status === "Ditolak") {
+        if (clientReady) {
+          // Cari tim relawan berdasarkan kecamatan dan kelurahan kegiatan
+          const timRelawan = await TimRelawan.findOne({
+            kecamatan: kegiatanRelawan.kecamatan,
+            kelurahan: kegiatanRelawan.kelurahan,
+          });
 
-        // Cek jika tim relawan ditemukan
-        if (timRelawan) {
-          const message = `Mohon Maaf Kegiatan ${kegiatanRelawan.namaKegiatan} Ditolak! Mohon Hubungi Admin Untuk Informasi Yang Lengkap!`;
-          const chatId = `${timRelawan.hp}@c.us`;
+          // Cek jika tim relawan ditemukan
+          if (timRelawan) {
+            const message = `Mohon Maaf Kegiatan ${kegiatanRelawan.namaKegiatan} Ditolak! Mohon Hubungi Admin Untuk Informasi Yang Lengkap!`;
+            const chatId = `${timRelawan.hp}@c.us`;
 
-          try {
-            await client.sendMessage(chatId, message);
-            console.log(`Pesan terkirim ke ${chatId}`);
-          } catch (error) {
-            console.error(`Gagal mengirim pesan ke ${chatId}:`, error.message);
+            try {
+              await client.sendMessage(chatId, message);
+              console.log(`Pesan terkirim ke ${chatId}`);
+            } catch (error) {
+              console.error(
+                `Gagal mengirim pesan ke ${chatId}:`,
+                error.message
+              );
+            }
+          } else {
+            console.log("Tim relawan tidak ditemukan.");
           }
         } else {
-          console.log("Tim relawan tidak ditemukan.");
+          console.log("WhatsApp Client is not ready.");
         }
-      } else {
-        console.log("WhatsApp Client is not ready.");
       }
-    }
 
-    // Respon sukses
-    res.status(200).json({ message: "success", data: kegiatanRelawan });
-  } catch (error) {
-    console.error("Error updating kegiatan or sending message:", error.message);
-    res.status(400).json({ message: "error", error: error.message });
+      // Respon sukses
+      res.status(200).json({ message: "success", data: kegiatanRelawan });
+    } catch (error) {
+      console.error(
+        "Error updating kegiatan or sending message:",
+        error.message
+      );
+      res.status(400).json({ message: "error", error: error.message });
+    }
   }
-});
+);
 
 router.get("/posko", (req, res) => {
   Posko.find()
@@ -720,7 +847,7 @@ router.post("/posko", upload.single("foto"), (req, res) => {
 //     .catch((error) => res.status(400).json({ message: "error", error }));
 // });
 
-router.post("/map", (req, res) => {
+router.post("/map", requireLogin, (req, res) => {
   const { latitude, longitude } = req.body;
 
   if (!latitude || !longitude) {
@@ -763,6 +890,8 @@ router.post(
     { name: "img", maxCount: 1 },
     { name: "img2", maxCount: 4 },
   ]),
+  requireLogin,
+  logActivity,
   (req, res) => {
     const { judul, deskripsi, tanggal } = req.body;
     const img = req.files["img"] ? req.files["img"][0].path : "";
@@ -790,6 +919,8 @@ router.put(
     { name: "img", maxCount: 1 },
     { name: "img2", maxCount: 1 },
   ]),
+  requireLogin,
+  logActivity,
   (req, res) => {
     const { id } = req.params;
     const { judul, deskripsi, tanggal } = req.body;
@@ -823,7 +954,7 @@ router.put(
   }
 );
 
-router.delete("/gallery/:id", (req, res) => {
+router.delete("/gallery/:id", requireLogin, logActivity, (req, res) => {
   const { id } = req.params;
   Gallery.findByIdAndDelete(id)
     .then(() => res.status(200).json({ message: "success" }))
@@ -857,6 +988,8 @@ router.post(
     { name: "img", maxCount: 1 },
     { name: "img2", maxCount: 1 },
   ]),
+  requireLogin,
+  logActivity,
   (req, res) => {
     const { judul, p1, p2, p3, p4, p5, author, tanggal } = req.body;
     const img = req.files["img"] ? req.files["img"][0].path : "";
@@ -887,6 +1020,8 @@ router.put(
     { name: "img", maxCount: 1 },
     { name: "img2", maxCount: 1 },
   ]),
+  requireLogin,
+  logActivity,
   (req, res) => {
     const { id } = req.params;
     const { judul, p1, p2, p3, p4, p5, author, tanggal } = req.body;
@@ -925,7 +1060,7 @@ router.put(
   }
 );
 
-router.delete("/artikel/:id", (req, res) => {
+router.delete("/artikel/:id", requireLogin, logActivity, (req, res) => {
   const { id } = req.params;
   Artikel.findByIdAndDelete(id)
     .then(() => res.status(200).json({ message: "success" }))
@@ -962,7 +1097,7 @@ router.post("/aspirasi", (req, res) => {
     .catch((error) => res.status(400).json({ message: "error", error }));
 });
 
-router.put("/relawan/:id", (req, res) => {
+router.put("/relawan/:id", requireLogin, logActivity, (req, res) => {
   const { id } = req.params;
   Relawan.findByIdAndUpdate(id, req.body, { new: true })
     .then((Relawan) =>
@@ -1082,7 +1217,7 @@ router.post("/relawan", upload.single("ttd"), (req, res) => {
     .catch((error) => res.status(400).json({ message: "error", error }));
 });
 
-router.put("/timrelawan/:id", (req, res) => {
+router.put("/timrelawan/:id", requireLogin, logActivity, (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
@@ -1097,7 +1232,7 @@ router.put("/timrelawan/:id", (req, res) => {
     .catch((error) => res.status(400).json({ message: "error", error }));
 });
 
-router.put("/relawan/:id", (req, res) => {
+router.put("/relawan/:id", requireLogin, logActivity, (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
@@ -1112,106 +1247,18 @@ router.put("/relawan/:id", (req, res) => {
     .catch((error) => res.status(400).json({ message: "error", error }));
 });
 
-router.delete("/timrelawan/:id", (req, res) => {
+router.delete("/timrelawan/:id", requireLogin, logActivity, (req, res) => {
   const { id } = req.params;
   TimRelawan.findByIdAndDelete(id)
     .then(() => res.status(200).json({ message: "success" }))
     .catch((error) => res.status(400).json({ message: "error", error }));
 });
 
-router.delete("/relawan/:id", (req, res) => {
+router.delete("/relawan/:id", requireLogin, logActivity, (req, res) => {
   const { id } = req.params;
   Relawan.findByIdAndDelete(id)
     .then(() => res.status(200).json({ message: "success" }))
     .catch((error) => res.status(400).json({ message: "error", error }));
-});
-
-/**
- * @route POST api/users/register
- * @desc Register new user
- * @access Private
- */
-router.post("/users/register", (req, res) => {
-  const { username, email, password } = req.body;
-  User.create({ username, email, password })
-    .then(() => {
-      return res.status(200).json({ message: "success" });
-    })
-    .catch((error) => {
-      console.log(error);
-      return res.status(400).json({ message: "failed", error });
-    });
-});
-
-/**
- * @route POST api/users/login
- * @desc Login user
- * @access Public
- */
-router.post("/users/login", (req, res) => {
-  const { email, password } = req.body;
-  User.findOne({ email: email, password: password })
-    .then((user) => {
-      if (!user) {
-        return res
-          .status(401)
-          .json({ message: "failed", error: "wrong-credentials" });
-      }
-      const maxAge = 3 * 24 * 60 * 60;
-      const token = createJwt(user._id, maxAge);
-      res.cookie("auth", token, { httpOnly: true, maxAge: maxAge * 10 });
-      clientReady = false;
-      client.on("qr", handleQR);
-      client.initialize();
-      return res.status(200).json({ message: "success", data: user });
-    })
-    .catch((err) => {
-      return res.status(400).json({ message: "failed", err });
-    });
-});
-
-/**
- * @route POST api/users/logout
- * @desc Log user out
- * @access Public
- */
-router.post("/users/logout", (req, res) => {
-  if (clientReady) {
-    client
-      .logout()
-      .then(() => {
-        console.log("Client berhasil logout");
-        client.off("qr", handleQR);
-      })
-      .catch((error) => {
-        console.error("Error saat logout:", error);
-      });
-  }
-  client.removeListener("qr", handleQR);
-  res.clearCookie("auth");
-  return res.status(200).json({ message: "success" });
-});
-
-/**
- * @route GET api/users
- * @desc Get authenticated user
- * @access Private
- */
-router.get("/users", requireLogin, (req, res) => {
-  const token = req.cookies.auth;
-  const _id = jwt.verify(token, SECRET).payload;
-  User.findOne({ _id }, { username: 1, email: 1, registrationDate: 1 })
-    .then((user) => {
-      const resData = { message: "success", data: user };
-      const encryptedData = encryptData(resData);
-      return res.status(200).json(encryptedData);
-    })
-    .catch((err) => {
-      console.log(err);
-      return res
-        .status(401)
-        .json({ message: "error", code: "unauthenticated-access" });
-    });
 });
 
 module.exports = router;

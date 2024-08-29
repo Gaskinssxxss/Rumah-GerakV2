@@ -100,7 +100,9 @@ export default {
             artikelService.create(formData)
                 .then(() => {
                     alert('success')
-                    this.$router.push('/');
+                    setTimeout(() => {
+                        this.$router.push('/warbase');
+                    }, 1000);
                 })
                 .catch(error => {
                     console.error('Error creating artikel:', error);

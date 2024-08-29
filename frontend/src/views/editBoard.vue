@@ -157,14 +157,17 @@ export default {
             boardApi.update(this.selectedBoard._id, formData)
                 .then(response => {
                     const index = this.boards.findIndex(artikel => artikel._id === response.data.data._id);
-                    this.$set(this.boards, index, response.data.data);
+                    this.artikels[index] = response.data.data;
+                    alert('Artikel updated success');
                     this.selectedBoard = null;
                     this.img = null;
-                    alert('Artikel updated successfully');
                 })
                 .catch(error => {
                     console.error('Error updating artikel:', error);
                 });
+            setTimeout(() => {
+                window.location.reload()
+            }, 1000);
         },
         getFullImgPath(img) {
             return `https://rumahgerak.com/${img}`;

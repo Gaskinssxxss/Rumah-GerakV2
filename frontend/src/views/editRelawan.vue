@@ -134,10 +134,13 @@ export default {
                     status: this.selectedStatus,
                 });
                 console.log(response)
-                alert('Status updated successfully');
+                alert('Status updated success');
                 this.fetchRelawans();
                 this.selectedRelawan = null;
                 this.edit = false;
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000);
             } catch (error) {
                 console.error('Error updating status:', error);
             }
