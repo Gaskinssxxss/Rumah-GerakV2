@@ -97,7 +97,7 @@ export default {
                 });
         },
         getFullImgPath(img) {
-            return `http://192.168.1.7:3000/${img}`;
+            return `https://rumahgerak.com/${img}`;
         },
     },
 };

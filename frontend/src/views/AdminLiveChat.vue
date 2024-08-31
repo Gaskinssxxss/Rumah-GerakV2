@@ -67,7 +67,7 @@ export default {
         }
     },
     mounted() {
-        this.socket = io('http://192.168.1.7:3000/');
+        this.socket = io('https://rumahgerak.com/');
         const savedChats = JSON.parse(localStorage.getItem('activeChats')) || {};
 
         // Fetch active chats and filter those that have messages

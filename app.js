@@ -41,7 +41,7 @@ bot.on("message", async (msg) => {
 const http = require("http").createServer(app);
 const io = require("socket.io")(http, {
   cors: {
-    origin: "http://192.168.1.7:8080",
+    origin: "https://rumahgerak.com",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -142,10 +142,10 @@ io.on("connection", (socket) => {
 //   });
 // });
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "production") {
   app.use(
     cors({
-      origin: "http://192.168.1.7:8080",
+      origin: "https://rumahgerak.com",
       credentials: true,
     })
   );

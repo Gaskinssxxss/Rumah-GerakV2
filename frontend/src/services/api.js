@@ -1,8 +1,8 @@
 import axios from "axios";
 
 let baseUrl;
-if (process.env.NODE_ENV === "development") {
-  baseUrl = process.env.VUE_APP_SERVER || "http://192.168.1.7:3000/api";
+if (process.env.NODE_ENV === "production") {
+  baseUrl = process.env.VUE_APP_SERVER || "https://rumahgerak.com/api";
 } else {
   baseUrl = process.env.BASE_URL + "api";
 }

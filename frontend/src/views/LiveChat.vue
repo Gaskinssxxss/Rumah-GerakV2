@@ -72,7 +72,7 @@ export default {
             this.initializeChat();
         },
         initializeChat() {
-            this.socket = io('http://192.168.1.7:3000/',);
+            this.socket = io('https://rumahgerak.com/',);
 
             this.socket.emit('join', { visitorID: this.visitorID });
 
