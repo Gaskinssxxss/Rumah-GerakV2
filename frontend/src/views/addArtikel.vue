@@ -101,7 +101,7 @@ export default {
                 .then(() => {
                     alert('success')
                     setTimeout(() => {
-                        this.$router.push('/warbase');
+                        window.location.reload()
                     }, 1000);
                 })
                 .catch(error => {

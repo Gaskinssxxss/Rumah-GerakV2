@@ -39,8 +39,9 @@ app
   .use(MotionPlugin)
   .use(VueGoogleMaps, {
     load: {
-      key: "AIzaSyCBug1WwztG5xFF-oqtolVTEi74vqDdBRc",
-      libraries: "places",
+      key: "AIzaSyAT4zmWT5vLpBlmwwFXVD-gXxGVgR4caSc",
+      libraries: "places,visualization",
+      v: "weekly",
     },
   })
   .use(Vue3VideoPlayer, {

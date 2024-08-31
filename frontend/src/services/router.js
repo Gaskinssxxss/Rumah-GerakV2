@@ -24,6 +24,7 @@ import laporanIsu from "@/views/laporanIsu.vue";
 import LiveChat from "@/views/LiveChat.vue";
 import boardContain from "@/views/boardContain.vue";
 import InforBoard from "@/views/InforBoard.vue";
+// import heatMap from "@/views/heatMap.vue";
 
 const routes = [
   {
@@ -36,6 +37,16 @@ const routes = [
       authForbidden: false,
     },
   },
+  // {
+  //   path: "/heatmap",
+  //   name: "heatmap",
+  //   component: heatMap,
+  //   meta: {
+  //     title: "HEATMAP",
+  //     authRequired: false,
+  //     authForbidden: false,
+  //   },
+  // },
   {
     path: "/board",
     name: "Papan",

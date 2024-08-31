@@ -8,11 +8,40 @@ const path = require("path");
 const Chat = require("./model/chat");
 
 const app = express();
+const TelegramBot = require("node-telegram-bot-api");
+const token = "7422227477:AAGAv5tS6sBKD8AOattz4We3cSBl422is98";
+let chatIDAdmin = 1327537640;
+let visitorIDNow = null;
+let adminTeleReady = false;
+const bot = new TelegramBot(token, { polling: true });
+
+bot.on("message", async (msg) => {
+  console.log(msg.chat.id);
+  if (visitorIDNow) {
+    //chatIDAdmin = msg.chat.id;
+    //messageTextTelegram = msg.text;
+    const chat = await Chat.findOne({ visitorID: visitorIDNow });
+    if (chat && chat.isActive) {
+      chat.messages.push({ sender: "Admin Telegram", text: msg.text });
+      await chat.save();
+      await io
+        .to(visitorIDNow)
+        .emit("chatMessage", { sender: "Admin Telegram", text: msg.text });
+      await io.emit("adminMessage", {
+        visitorID: visitorIDNow,
+        sender: "tele",
+        text: msg.text,
+      });
+    }
+  } else {
+    bot.sendMessage(chatIDAdmin, "Belum Ada Sesi Visitor!"); //BOT Telegram
+  }
+});
 
 const http = require("http").createServer(app);
 const io = require("socket.io")(http, {
   cors: {
-    origin: "https://rumahgerak.com",
+    origin: "http://192.168.1.7:8080",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -34,13 +63,19 @@ io.on("connection", (socket) => {
 
   socket.on("chatMessage", async (msg) => {
     const { visitorID, text, sender } = msg;
-
     const chat = await Chat.findOne({ visitorID });
-
     if (chat && chat.isActive) {
       chat.messages.push({ sender, text });
       await chat.save();
-      console.log("ada Pesan Masuk");
+      if (!adminTeleReady) {
+        await bot.sendMessage(
+          chatIDAdmin,
+          `Ada Pesan Dari Visitor : ${visitorID}`
+        ); //BOT Telegram
+        adminTeleReady = true;
+      }
+      await bot.sendMessage(chatIDAdmin, text); //BOT Telegram
+      visitorIDNow = visitorID;
       io.to(visitorID).emit("chatMessage", { sender, text });
       io.emit("adminMessage", { visitorID, sender, text });
     } else {
@@ -49,6 +84,23 @@ io.on("connection", (socket) => {
       });
     }
   });
+  // socket.on("chatMessage", async (msg) => {
+  //   const { visitorID, text, sender } = msg;
+
+  //   const chat = await Chat.findOne({ visitorID });
+
+  //   if (chat && chat.isActive) {
+  //     chat.messages.push({ sender, text });
+  //     await chat.save();
+  //     console.log("ada Pesan Masuk");
+  //     io.to(visitorID).emit("chatMessage", { sender, text });
+  //     io.emit("adminMessage", { visitorID, sender, text });
+  //   } else {
+  //     socket.emit("chatClosed", {
+  //       message: "This chat session has been closed.",
+  //     });
+  //   }
+  // });
 
   socket.on("adminReply", async (msg) => {
     const { visitorID, text } = msg;
@@ -75,16 +127,25 @@ io.on("connection", (socket) => {
       });
     }
   });
-
   socket.on("disconnect", () => {
     console.log("A user disconnected");
+    if (visitorIDNow && adminTeleReady) {
+      bot.sendMessage(chatIDAdmin, `Sesi VisitorID : ${visitorIDNow} Berakhir`); //BOT Telegram
+    }
+    bot.stop;
+    visitorIDNow = null;
+    adminTeleReady = false;
   });
 });
+//   socket.on("disconnect", () => {
+//     console.log("A user disconnected");
+//   });
+// });
 
 if (process.env.NODE_ENV === "development") {
   app.use(
     cors({
-      origin: "https://rumahgerak.com",
+      origin: "http://192.168.1.7:8080",
       credentials: true,
     })
   );
