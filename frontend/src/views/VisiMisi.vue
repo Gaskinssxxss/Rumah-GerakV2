@@ -17,8 +17,8 @@
             </div>
             <div class="bg-black rounded-b-md font-Jet text-base font-bold">
                 <div
-                    class="bg-golkar rounded-b-md relative -top-1 -left-1 border-2 border-black py-1 px-4 text-justify">
-                    <h1>{{ vs.visi }}</h1>
+                    class="bg-golkar rounded-b-md relative -top-1 -left-1 border-2 border-black py-2 px-4 text-justify">
+                    <h1 class="pt-2">{{ vs.visi }}</h1>
                 </div>
             </div>
         </div>
@@ -40,11 +40,31 @@
             </div>
             <div class="bg-black rounded-b-md font-Jet text-base font-bold">
                 <div
-                    class="bg-nasdem rounded-b-md relative -top-1 -left-1 border-2 border-black py-2 px-4 text-justify">
-                    <h1>{{ vs.misi }}</h1>
+                    class="bg-nasdem rounded-b-md relative -top-1 -left-1 border-2 border-black py-2 px-4 text-justify h-60 overflow-y-auto">
+                    <div v-for="misi in vs.misi" :key="misi.judul" class="pb-4">
+                        <h2 class="font-bold">{{ misi.judul }}</h2>
+                        <p class="pt-2">{{ misi.deskripsi }}</p>
+                        <div class="text-sm pt-2">
+                            <div>
+                                <div v-for="program in misi.program" :key="program" class="flex space-x-2">
+                                    <div class="pt-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                            class="size-2">
+                                            <path
+                                                d="M5.25 3A2.25 2.25 0 0 0 3 5.25v9.5A2.25 2.25 0 0 0 5.25 17h9.5A2.25 2.25 0 0 0 17 14.75v-9.5A2.25 2.25 0 0 0 14.75 3h-9.5Z" />
+                                        </svg>
+                                    </div>
+                                    <div class="space-y-2">
+                                        {{ program }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
         <div class="pb-10">
             <div class="relative -top-20 -mb-[105px] left-64 siomi:left-60">
                 <img class="h-40" src="../assets/umix.png" alt="" v-motion-slide-visible-once-right :delay="200">

@@ -31,6 +31,8 @@ module.exports = {
         saira: "Saira Condensed",
         Bebas: "Bebas Neue",
         Jet: "JetBrains Mono",
+        rubik: "Rubik Mono One",
+        anton: "Anton SC",
       },
       margin: {
         85: "480px",

@@ -33,7 +33,7 @@
                         <div
                             class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
                             <button>
-                                <h1 class="uppercase text-3xl py-1">Home</h1>
+                                <h1 class="uppercase text-3xl py-1 sm:py-0">Home</h1>
                             </button>
                         </div>
                     </router-link>
@@ -43,7 +43,7 @@
                         <div
                             class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
                             <button>
-                                <h1 class="uppercase text-3xl py-1">Relawan</h1>
+                                <h1 class="uppercase text-3xl py-1 sm:py-0">Relawan</h1>
                             </button>
                         </div>
                     </router-link>
@@ -53,17 +53,29 @@
                         <div
                             class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
                             <button>
-                                <h1 class="uppercase text-3xl py-1">Papan Informasi</h1>
+                                <h1 class="uppercase text-3xl py-1 sm:py-0">Papan Informasi</h1>
                             </button>
                         </div>
                     </router-link>
+                </div>
+                <div class="">
+                    <div class="bg-black">
+                        <router-link to="/portal-berita" @click="closeNavbar">
+                            <div
+                                class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
+                                <button>
+                                    <h1 class="uppercase text-3xl py-1 sm:py-0">Portal Berita</h1>
+                                </button>
+                            </div>
+                        </router-link>
+                    </div>
                 </div>
                 <div class="bg-black">
                     <router-link to="/profile-kandidat" @click="closeNavbar">
                         <div
                             class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
                             <button>
-                                <h1 class="uppercase text-3xl py-1">Profile</h1>
+                                <h1 class="uppercase text-3xl py-1 sm:py-0">Profile</h1>
                             </button>
                         </div>
                     </router-link>
@@ -73,7 +85,7 @@
                         <div
                             class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
                             <button>
-                                <h1 class="uppercase text-3xl py-1">Visi & Misi</h1>
+                                <h1 class="uppercase text-3xl py-1 sm:py-0">Visi & Misi</h1>
                             </button>
                         </div>
                     </router-link>
@@ -83,7 +95,7 @@
                         <div
                             class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
                             <button>
-                                <h1 class="uppercase text-3xl py-1">Koalisi</h1>
+                                <h1 class="uppercase text-3xl py-1 sm:py-0">Koalisi</h1>
                             </button>
                         </div>
                     </router-link>
@@ -93,7 +105,7 @@
                         <div
                             class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
                             <button>
-                                <h1 class="uppercase text-3xl py-1">Galleri</h1>
+                                <h1 class="uppercase text-3xl py-1 sm:py-0">Galleri</h1>
                             </button>
                         </div>
                     </router-link>
@@ -103,7 +115,17 @@
                         <div
                             class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
                             <button>
-                                <h1 class="uppercase text-3xl py-1">Track Record</h1>
+                                <h1 class="uppercase text-3xl py-1 sm:py-0">Track Record</h1>
+                            </button>
+                        </div>
+                    </router-link>
+                </div>
+                <div class="bg-black">
+                    <router-link to="/struktur-tim" @click="closeNavbar">
+                        <div
+                            class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
+                            <button>
+                                <h1 class="uppercase text-3xl py-1 sm:py-0">Struktur Tim</h1>
                             </button>
                         </div>
                     </router-link>
@@ -114,7 +136,7 @@
                             <div
                                 class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
                                 <button>
-                                    <h1 class="uppercase text-3xl py-1">Aspirasi</h1>
+                                    <h1 class="uppercase text-3xl py-1 sm:py-0">Aspirasi</h1>
                                 </button>
                             </div>
                         </router-link>
@@ -126,7 +148,7 @@
                             <div
                                 class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
                                 <button>
-                                    <h1 class="uppercase text-3xl py-1">Posko</h1>
+                                    <h1 class="uppercase text-3xl py-1 sm:py-0">Posko</h1>
                                 </button>
                             </div>
                         </router-link>
@@ -138,19 +160,7 @@
                             <div
                                 class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
                                 <button>
-                                    <h1 class="uppercase text-3xl py-1">Kegiatan Relawan</h1>
-                                </button>
-                            </div>
-                        </router-link>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="bg-black">
-                        <router-link to="/laporan/isu" @click="closeNavbar">
-                            <div
-                                class=" transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-0 -translate-y-0 hover:-translate-x-2 hover:-translate-y-2 text-center py-1 px-2 md:py-2 bg-neutral-200 hover:bg-che hover:text-neutral-300 border-y-[1px] border-black ">
-                                <button>
-                                    <h1 class="uppercase text-3xl py-1">Zona Isu</h1>
+                                    <h1 class="uppercase text-3xl py-1 sm:py-0">Kegiatan Relawan</h1>
                                 </button>
                             </div>
                         </router-link>

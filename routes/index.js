@@ -1145,16 +1145,30 @@ router.post(
       latitude,
       longitude,
       suratPernyataan,
+      namaAnggota, // Dianggap ini sebagai array dari anggota
+      noHp, // Dianggap ini sebagai array dari noHp sesuai anggota
     } = req.body;
     const ttd = req.files["ttd"] ? req.files["ttd"][0].path : "";
     const ttdAnggota = req.files["ttdAnggota"]
       ? req.files["ttdAnggota"].map((file) => file.path)
       : [];
 
+    // Buat token unik
     const randomNumbers = Math.floor(10000 + Math.random() * 90000);
     const newKel = kelurahan.replace(/\s+/g, "");
     const newName = namatim.replace(/\s+/g, "");
     let token = `${newName}${newKel}${randomNumbers}`;
+
+    // Format array 'anggota' dengan namaAnggota dan noHp
+    const anggota = [];
+    if (Array.isArray(namaAnggota) && Array.isArray(noHp)) {
+      namaAnggota.forEach((nama, index) => {
+        anggota.push({
+          namaAnggota: nama,
+          noHp: noHp[index] || "",
+        });
+      });
+    }
 
     TimRelawan.create({
       token,
@@ -1171,6 +1185,7 @@ router.post(
       suratPernyataan,
       ttd,
       ttdAnggota,
+      anggota, // masukkan array anggota yang sudah diformat
     })
       .then((timRelawan) =>
         res.status(201).json({ message: "success", data: timRelawan })
@@ -1178,6 +1193,60 @@ router.post(
       .catch((error) => res.status(400).json({ message: "error", error }));
   }
 );
+
+// router.post(
+//   "/timrelawan",
+//   upload.fields([
+//     { name: "ttd", maxCount: 1 },
+//     { name: "ttdAnggota", maxCount: null },
+//   ]),
+//   (req, res) => {
+//     const {
+//       namatim,
+//       namaketua,
+//       totalanggota,
+//       namaAnggota,
+//       hp,
+//       kecamatan,
+//       kelurahan,
+//       rt,
+//       rw,
+//       latitude,
+//       longitude,
+//       suratPernyataan,
+//     } = req.body;
+//     const ttd = req.files["ttd"] ? req.files["ttd"][0].path : "";
+//     const ttdAnggota = req.files["ttdAnggota"]
+//       ? req.files["ttdAnggota"].map((file) => file.path)
+//       : [];
+
+//     const randomNumbers = Math.floor(10000 + Math.random() * 90000);
+//     const newKel = kelurahan.replace(/\s+/g, "");
+//     const newName = namatim.replace(/\s+/g, "");
+//     let token = `${newName}${newKel}${randomNumbers}`;
+
+//     TimRelawan.create({
+//       token,
+//       namatim,
+//       namaketua,
+//       totalanggota,
+//       hp,
+//       kecamatan,
+//       kelurahan,
+//       rt,
+//       rw,
+//       latitude,
+//       longitude,
+//       suratPernyataan,
+//       ttd,
+//       ttdAnggota,
+//     })
+//       .then((timRelawan) =>
+//         res.status(201).json({ message: "success", data: timRelawan })
+//       )
+//       .catch((error) => res.status(400).json({ message: "error", error }));
+//   }
+// );
 
 router.post("/relawan", upload.single("ttd"), (req, res) => {
   const {

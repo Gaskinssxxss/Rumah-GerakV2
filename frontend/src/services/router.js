@@ -24,6 +24,8 @@ import laporanIsu from "@/views/laporanIsu.vue";
 import LiveChat from "@/views/LiveChat.vue";
 import boardContain from "@/views/boardContain.vue";
 import InforBoard from "@/views/InforBoard.vue";
+import artikelView from "@/views/artikelView.vue";
+import strukturOrtodoks from "@/views/strukturOrtodoks.vue";
 // import heatMap from "@/views/heatMap.vue";
 
 const routes = [
@@ -48,11 +50,31 @@ const routes = [
   //   },
   // },
   {
+    path: "/struktur-tim",
+    name: "Struktur Tim",
+    component: strukturOrtodoks,
+    meta: {
+      title: "STRUKTUR TIM",
+      authRequired: false,
+      authForbidden: false,
+    },
+  },
+  {
     path: "/board",
     name: "Papan",
     component: InforBoard,
     meta: {
       title: "PAPAN",
+      authRequired: false,
+      authForbidden: false,
+    },
+  },
+  {
+    path: "/portal-berita",
+    name: "PORTAL BERITA",
+    component: artikelView,
+    meta: {
+      title: "Portal Berita",
       authRequired: false,
       authForbidden: false,
     },

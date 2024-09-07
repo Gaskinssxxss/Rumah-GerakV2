@@ -5,6 +5,10 @@ import router from "./services/router";
 import store from "./services/store";
 import "./style.css";
 
+// import "@splidejs/vue-splide/css";
+
+import "@splidejs/vue-splide/css/sea-green";
+
 import VueToast from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 

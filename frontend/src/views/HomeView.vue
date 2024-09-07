@@ -329,7 +329,6 @@ export default {
           const parsedBallData = JSON.parse(ballData);
           const parsedKegData = JSON.parse(kegData);
           const parsedArtiData = JSON.parse(artiData);
-          console.log(parsedLenzData)
 
           if (Array.isArray(parsedLenData.data)) {
             const len = parsedLenData.data.length ? parseInt(parsedLenData.data.length, 10) : 0;
@@ -362,7 +361,7 @@ export default {
   setup() {
     return {
       helloArray: ['Selamat Datang di kota bima baru yang memiliki sdm unggul, infrastruktur maju, dan sejahtera '],
-      txt: ['Portal Artikel Lorem Ipsum. Terkait kondisi terkini yang aktual dan informatif.']
+      txt: ['Portal Berita Amanah. Dapatkan Informasi terkini yang faktual dan informatif terkait Amanah . ']
     };
   },
 }

@@ -34,6 +34,16 @@
                     </div>
                     <div v-motion-slide-visible-once-left :delay="200">
                         <div class="pb-1">
+                            <h1>NO hp ketua tim</h1>
+                        </div>
+                        <div class="bg-black rounded-md">
+                            <input v-model="form.hp" type="tel"
+                                class="border-2 border-black bg-gray-200 w-full rounded-md pl-2 font-Jet font-bold text-2xl py-1 uppercase"
+                                placeholder="No HP">
+                        </div>
+                    </div>
+                    <div v-motion-slide-visible-once-left :delay="200">
+                        <div class="pb-1">
                             <h1>Total Anggota tim</h1>
                         </div>
                         <div class="bg-black rounded-md">
@@ -42,12 +52,21 @@
                                 placeholder="Total Anggota">
                         </div>
                     </div>
-                    <div v-motion-slide-visible-once-left :delay="200">
+                    <div v-motion-slide-visible-once-left :delay="200" v-for="(anggota, index) in anggotaList"
+                        :key="index">
                         <div class="pb-1">
-                            <h1>NO hp ketua tim</h1>
+                            <h1>Nama Anggota {{ index + 1 }}</h1>
                         </div>
                         <div class="bg-black rounded-md">
-                            <input v-model="form.hp" type="tel"
+                            <input v-model="anggotaList[index].namaAnggota" type="text"
+                                class="border-2 border-black bg-gray-200 w-full rounded-md pl-2 font-Jet font-bold text-2xl py-1 uppercase"
+                                placeholder="Nama Anggota">
+                        </div>
+                        <div class="pb-1">
+                            <h1>No HP Anggota {{ index + 1 }}</h1>
+                        </div>
+                        <div class="bg-black rounded-md">
+                            <input v-model="anggotaList[index].noHp" type="tel"
                                 class="border-2 border-black bg-gray-200 w-full rounded-md pl-2 font-Jet font-bold text-2xl py-1 uppercase"
                                 placeholder="No HP">
                         </div>
@@ -113,54 +132,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="pt-4" v-motion-pop-visible-once :delay="200">
-                            <h1 class="text-2xl tracking-wide font-Karantina uppercase pb-2">* Upload Foto KTP anda
-                            </h1>
-                            <label
-                                class="block w-full cursor-pointer bg-gray-200 text-black text-xl py-1 px-4 hover:bg-gray-400 rounded outline-dashed outline-2 outline-offset-4 outline-gray-200 hover:outline-gray-400 focus:outline-none focus:shadow-outline">
-                                <div class="flex items-center space-x-4 cursor-pointe">
-                                    <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="size-8">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-                                        </svg>
-                                    </div>
-                                    <h1 class="mr-2 tracking-wide">Pilih file</h1>
-                                    <input type="file" class="hidden" @change="handleFileUpload">
-                                    <div v-if="fileName" class="pt-2 font-Jet text-xs font-extrabold">
-                                        <p>File yang dipilih: {{ fileName }}</p>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="pt-8" v-motion-pop-visible-once :delay="200">
-                            <h1 class="text-xl tracking-wide font-Karantina uppercase pb-2">* Upload Foto KTP Semua
-                                Anggota Tim Anda
-                            </h1>
-                            <label
-                                class="block w-full cursor-pointer bg-gray-200 text-black text-xl py-1 px-4 hover:bg-gray-400 rounded outline-dashed outline-2 outline-offset-4 outline-gray-200 hover:outline-gray-400 focus:outline-none focus:shadow-outline">
-                                <div class="flex items-center space-x-4 cursor-pointe">
-                                    <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="size-8">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-                                        </svg>
-                                    </div>
-                                    <h1 class="mr-2 tracking-wide">Pilih file</h1>
-                                    <input type="file" class="hidden" @change="onFileChanges" multiple required>
-                                    <div v-if="fileNames" class="pt-2 font-Jet text-xs font-extrabold">
-                                        <p>File yang dipilih:</p>
-                                        <ul>
-                                            <li v-for="(name, index) in fileNamesArray" :key="index">{{ name }}</li>
-                                        </ul>
-                                        <p>Total file yang diupload: {{ fileNamesArray.length }}</p>
-                                    </div>
-
-                                </div>
-                            </label>
-                        </div>
                     </div>
                     <div class="pt-8" v-motion-pop-visible-once :delay="200">
                         <div class="pb-1">
@@ -224,6 +195,7 @@ export default {
                 longitude: null,
                 ttdAngggota: []
             },
+            anggotaList: [],
             kelurahanOptions: {
                 'Asakota': ['Melayu', 'Jatiwangi', 'Jatibaru', 'Jatibaru Timur', 'Kolo', 'Ule'],
                 'Rasanae Barat': ['Tanjung', 'Paruga', 'Sarae', 'Nae', 'Pane', 'Dara'],
@@ -237,6 +209,11 @@ export default {
             fileNames: ''
         };
     },
+    watch: {
+        'form.totalanggota': function (newVal) {
+            this.generateAnggotaFields(newVal);
+        }
+    },
     computed: {
         formatSurat() {
             return `Dengan ini, kami dari tim relawan <strong>${this.form.namatim}</strong> dari kecamatan <strong>${this.form.kecamatan}</strong> kelurahan <strong>${this.form.kelurahan}</strong> dan saya <strong>${this.form.namaketua}</strong> sebagai ketua tim relawan <strong>${this.form.namatim}</strong> dengan total anggota tim <strong>${this.form.totalanggota}</strong>, menyatakan dukungan penuh pada mr. x dan ms. y sebagai pasangan calon walikota dan wakil walikota bima pada pergelaran pilkada 2024. kami siap berjuang bersama demi kota bima yang maju dan sejahtera.`;
@@ -246,6 +223,15 @@ export default {
         }
     },
     methods: {
+        generateAnggotaFields(total) {
+            this.anggotaList = [];
+            for (let i = 0; i < total; i++) {
+                this.anggotaList.push({
+                    namaAnggota: '',
+                    noHp: ''
+                });
+            }
+        },
         handlePlaceChanged(place) {
             if (place.geometry) {
                 this.markerPosition = {
@@ -290,21 +276,6 @@ export default {
                 alert('RW belum diisi');
                 return false;
             }
-            if (!this.form.ttd) {
-                alert('Foto KTP belum diupload');
-                return false;
-            }
-            if (!this.form.ttdAngggota || this.form.ttdAngggota.length === 0) {
-                alert('Foto KTP seluruh anggota belum diupload');
-                return false;
-            }
-
-            // New validation: check if the number of uploaded photos matches the total number of team members
-            if (this.form.ttdAngggota.length !== parseInt(this.form.totalanggota)) {
-                alert(`Jumlah foto KTP anggota (${this.form.ttdAngggota.length}) tidak sama dengan total anggota (${this.form.totalanggota})`);
-                return false;
-            }
-
             return true;
         },
         handlePhoneNumber() {
@@ -363,6 +334,12 @@ export default {
                 formData.append(key, this.form[key]);
             }
             formData.append('suratPernyataan', this.formatSurat);
+
+            this.anggotaList.forEach((anggota, index) => {
+                formData.append(`namaAnggota[${index}]`, anggota.namaAnggota);
+                formData.append(`noHp[${index}]`, anggota.noHp);
+            });
+
             if (Array.isArray(this.form.ttdAngggota)) {
                 this.form.ttdAngggota.forEach(file => {
                     formData.append('ttdAnggota', file);
@@ -378,8 +355,11 @@ export default {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
-                this.resetForm();
                 alert('Tim relawan berhasil ditambahkan!');
+                setTimeout(() => {
+                    window.location.reload()
+                    this.resetForm()
+                }, 1000);
             } catch (err) {
                 console.error(err);
                 alert('Gagal menyimpan data tim relawan');

@@ -15,7 +15,7 @@
                         </div>
                         <div class="flex justify-end py-4 pr-6">
                             <button @click="buka(artikel._id)">
-                                <h1 class="underline hover:text-black">Buka Artikel</h1>
+                                <h1 class="underline hover:text-black">Buka Berita</h1>
                             </button>
                         </div>
                     </div>

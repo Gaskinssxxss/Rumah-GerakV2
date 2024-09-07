@@ -18,6 +18,18 @@ const timrelawan = new Schema({
     type: Number,
     required: true,
   },
+  anggota: [
+    {
+      namaAnggota: {
+        type: String,
+        required: true,
+      },
+      noHp: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
   hp: {
     type: String,
     required: true,
@@ -44,11 +56,11 @@ const timrelawan = new Schema({
   },
   ttd: {
     type: String,
-    required: true,
+    required: false,
   },
   ttdAnggota: {
     type: [],
-    required: true,
+    required: false,
   },
   latitude: {
     type: Number,
