@@ -353,8 +353,11 @@ const getTotalAnggotaSeluruhRelawan = async () => {
       },
     ]);
 
+    const banyakTim = await TimRelawan.find();
+
     const totalAnggota = result.length > 0 ? result[0].totalAnggota : 0;
-    return totalAnggota;
+    const total = totalAnggota + banyakTim.length;
+    return total;
   } catch (err) {
     console.error("Error fetching total anggota:", err);
     throw err;
@@ -1124,6 +1127,80 @@ router.get("/relawan", (req, res) => {
       res.status(200).json(encryptedData);
     })
     .catch((error) => res.status(400).json({ message: "error", error }));
+});
+
+router.get("/relawan", (req, res) => {
+  Relawan.find()
+    .then((Relawans) => {
+      const resData = { message: "success", data: Relawans };
+      const encryptedData = encryptData(resData);
+      res.status(200).json(encryptedData);
+    })
+    .catch((error) => res.status(400).json({ message: "error", error }));
+});
+
+router.get("/search", async (req, res) => {
+  const { kecamatan, kelurahan } = req.query;
+
+  try {
+    let query = {};
+    if (kecamatan) query.kecamatan = kecamatan;
+    if (kelurahan) query.kelurahan = kelurahan;
+
+    const timRelawans = await TimRelawan.find(query);
+    res.json(timRelawans);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+router.get("/search/total", async (req, res) => {
+  const { kecamatan, kelurahan } = req.query;
+  try {
+    let matchQuery = {};
+    if (kecamatan) matchQuery.kecamatan = kecamatan;
+    if (kelurahan) matchQuery.kelurahan = kelurahan;
+
+    const total = await TimRelawan.aggregate([
+      { $match: matchQuery },
+      { $project: { totalAnggota: { $add: [{ $size: "$anggota" }, 1] } } },
+      { $group: { _id: null, totalAnggota: { $sum: "$totalAnggota" } } },
+    ]);
+
+    res.json({ total: total[0] ? total[0].totalAnggota : 0 });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+router.get("/search/relawan", async (req, res) => {
+  const { kecamatan, kelurahan } = req.query;
+
+  try {
+    let query = {};
+    if (kecamatan) query.kecamatan = kecamatan;
+    if (kelurahan) query.kelurahan = kelurahan;
+
+    const relawans = await Relawan.find(query);
+    res.json(relawans);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+router.get("/search/relawan/total", async (req, res) => {
+  const { kecamatan, kelurahan } = req.query;
+
+  try {
+    let query = {};
+    if (kecamatan) query.kecamatan = kecamatan;
+    if (kelurahan) query.kelurahan = kelurahan;
+
+    const total = await Relawan.countDocuments(query);
+    res.json({ total });
+  } catch (error) {
+    res.status(500).send({ message: "Server error", error: error.message });
+  }
 });
 
 router.post(

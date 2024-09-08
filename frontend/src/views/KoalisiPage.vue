@@ -110,21 +110,6 @@
                     <div class="bg-black w-36 h-32">
                         <div class="bg-gray-200 border-2 border-black w-36 h-32 ">
                             <div>
-                                <img class="w-36 h-32" src="../assets/Gelora.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pt-2" v-motion-slide-visible-once-right :delay="200">
-                        <h1>PARTAI GELORA</h1>
-                        <div class="text-lg -mt-2">
-                            <h1>*</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex space-x-4" v-motion-slide-visible-once-left :delay="200">
-                    <div class="bg-black w-36 h-32">
-                        <div class="bg-gray-200 border-2 border-black w-36 h-32 ">
-                            <div>
                                 <img class="w-36 h-32" src="../assets/Perindo.png" alt="">
                             </div>
                         </div>

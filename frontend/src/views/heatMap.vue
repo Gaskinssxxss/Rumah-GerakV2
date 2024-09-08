@@ -1,5 +1,7 @@
 <template>
-    <div id="map" style="width: 100%; height: 500px"></div>
+    <div class="bg-gray-200 p-4">
+        <div id="map" style="width: 62rem; height: 32.8rem"></div>
+    </div>
 </template>
 
 <script>
@@ -40,6 +42,34 @@ export default {
         };
     },
     methods: {
+        createInfoWindow(relawan) {
+            let contentString = `
+            <div class="font-Jet uppercase font-semibold text-sm text-black">
+                <h1 class="text-base font-extrabold">Relawan Individu</h1>
+                <h3>Nama : ${relawan.nama}</h3>
+                <p>Kecamatan: ${relawan.kecamatan}</p>
+                <p>Kelurahan: ${relawan.kelurahan}</p>
+                <p>RT: ${relawan.rt}, RW: ${relawan.rw}</p>
+            </div>
+        `;
+            if (relawan.namatim) {
+                contentString = `
+                <div class="font-Jet uppercase font-semibold text-sm text-black">
+                    <h1 class="text-base font-extrabold">Tim Relawan</h1>
+                    <h3>Tim: ${relawan.namatim}</h3>
+                    <p>Ketua: ${relawan.namaketua}</p>
+                    <p>Total Anggota: ${relawan.totalanggota}</p>
+                    <p>Kecamatan: ${relawan.kecamatan}</p>
+                    <p>Kelurahan: ${relawan.kelurahan}</p>
+                    <p>RT: ${relawan.rt}, RW: ${relawan.rw}</p>
+                </div>
+            `;
+            }
+            const infoWindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            return infoWindow;
+        },
         handleMapLoad() {
             this.initMap();
             this.fetchRelawans();
@@ -48,7 +78,9 @@ export default {
             this.map = new google.maps.Map(document.getElementById("map"), {
                 center: { lat: -8.4606, lng: 118.7258 },
                 zoom: 14,
-                mapTypeId: google.maps.MapTypeId.SATELLITE,
+                mapTypeId: 'hybrid', // Menambahkan opsi untuk mapTypeId menjadi hybrid
+                gestureHandling: 'greedy', // Menambahkan gesture handling menjadi greedy
+                fullscreenControl: true, // Menambahkan kontrol fullscreen
             });
         },
         async fetchRelawans() {
@@ -80,17 +112,17 @@ export default {
             this.heatmapData = [
                 ...this.relawans.map((relawan) => ({
                     location: new google.maps.LatLng(relawan.latitude, relawan.longitude),
-                    weight: 100 // Ganti dengan salah satu opsi di atas
+                    weight: 100
                 })),
                 ...this.timrelawans.map((timrelawan) => ({
                     location: new google.maps.LatLng(timrelawan.latitude, timrelawan.longitude),
-                    weight: timrelawan.totalanggota * 100 // Ganti sesuai kebutuhan
+                    weight: timrelawan.totalanggota * 200
                 }))
             ];
 
             this.markers = [
                 ...this.relawans.map((relawan) => {
-                    return new google.maps.Marker({
+                    const marker = new google.maps.Marker({
                         position: { lat: relawan.latitude, lng: relawan.longitude },
                         map: this.map,
                         icon: {
@@ -98,9 +130,18 @@ export default {
                             scaledSize: new google.maps.Size(20, 30),
                         },
                     });
+                    const infoWindow = this.createInfoWindow(relawan);
+                    marker.addListener('click', () => {
+                        infoWindow.open({
+                            anchor: marker,
+                            map: this.map,
+                            shouldFocus: false,
+                        });
+                    });
+                    return marker;
                 }),
                 ...this.timrelawans.map((timrelawan) => {
-                    return new google.maps.Marker({
+                    const marker = new google.maps.Marker({
                         position: { lat: timrelawan.latitude, lng: timrelawan.longitude },
                         map: this.map,
                         icon: {
@@ -108,6 +149,15 @@ export default {
                             scaledSize: new google.maps.Size(20, 30),
                         },
                     });
+                    const infoWindow = this.createInfoWindow(timrelawan);
+                    marker.addListener('click', () => {
+                        infoWindow.open({
+                            anchor: marker,
+                            map: this.map,
+                            shouldFocus: false,
+                        });
+                    });
+                    return marker;
                 })
             ];
 

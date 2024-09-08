@@ -50,7 +50,7 @@
                     <button type="submit"
                         class="bg-gray-200 hover:bg-gray-400 hover:text-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 border-2 border-black ">
                         <h1 class="font-Karantina font-bold uppercase text-3xl px-12 py-2">
-                            Buat Artikel
+                            Buat Berita
                         </h1>
                     </button>
                 </div>

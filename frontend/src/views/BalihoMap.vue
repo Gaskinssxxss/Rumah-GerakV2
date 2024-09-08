@@ -93,7 +93,6 @@ export default {
                 });
         },
         createChart(data) {
-            // Ensure data is filtered correctly
             if (this.selectedKecamatan) {
                 data = data.filter(relawan => relawan.kecamatan === this.selectedKecamatan);
             }

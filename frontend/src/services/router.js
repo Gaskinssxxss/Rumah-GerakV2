@@ -26,7 +26,7 @@ import boardContain from "@/views/boardContain.vue";
 import InforBoard from "@/views/InforBoard.vue";
 import artikelView from "@/views/artikelView.vue";
 import strukturOrtodoks from "@/views/strukturOrtodoks.vue";
-// import heatMap from "@/views/heatMap.vue";
+import heatMap from "@/views/heatMap.vue";
 
 const routes = [
   {
@@ -39,16 +39,16 @@ const routes = [
       authForbidden: false,
     },
   },
-  // {
-  //   path: "/heatmap",
-  //   name: "heatmap",
-  //   component: heatMap,
-  //   meta: {
-  //     title: "HEATMAP",
-  //     authRequired: false,
-  //     authForbidden: false,
-  //   },
-  // },
+  {
+    path: "/heatmap",
+    name: "heatmap",
+    component: heatMap,
+    meta: {
+      title: "HEATMAP",
+      authRequired: false,
+      authForbidden: false,
+    },
+  },
   {
     path: "/struktur-tim",
     name: "Struktur Tim",

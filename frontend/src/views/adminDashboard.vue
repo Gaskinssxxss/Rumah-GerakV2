@@ -14,7 +14,7 @@
                         </div>
                         <div class="bg-black">
                             <div @click="logout"
-                                class="bg-gray-200 border-2 border-black text-black px-4 transitio-transform duration-300 ease-linear transform -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2">
+                                class="bg-gray-200 border-2 border-black text-black px-4 transition-transform duration-300 ease-linear transform -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2">
                                 <button class="uppercase">
                                     <h1>Logout</h1>
                                 </button>
@@ -38,19 +38,19 @@
                             <div @click="showRelawan"
                                 class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 hover:text-gray-200 bg-gray-200 text-black hover:bg-che p-2">
                                 <h1>
-                                    Relawan
+                                    Peta Relawan
                                 </h1>
                             </div>
                             <div @click="showRelawanConfirm"
                                 class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 text-black bg-sun hover:text-gray-200 font-semibold hover:bg-che text-xl px-2 uppercase tracking-wide">
                                 <h1>
-                                    Konfirmasi Relawan
+                                    Relawan
                                 </h1>
                             </div>
                             <div @click="showTimRelawanConfirm"
                                 class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 text-black bg-sun hover:text-gray-200 font-semibold hover:bg-che text-xl px-2 uppercase tracking-wider">
                                 <h1>
-                                    Konfirmasi Tim Relawan
+                                    Tim Relawan
                                 </h1>
                             </div>
                             <div @click="showRelawanDelete"
@@ -165,6 +165,12 @@
                                     Board
                                 </h1>
                             </div>
+                            <div @click="sendBoards"
+                                class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 text-black bg-sun hover:text-gray-200 font-semibold hover:bg-che text-xl px-2 uppercase tracking-wide">
+                                <h1>
+                                    Broadcast Informasi Board
+                                </h1>
+                            </div>
                             <div @click="createBoard"
                                 class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 text-black bg-sun hover:text-gray-200 font-semibold hover:bg-che text-xl px-2 uppercase tracking-wider">
                                 <h1>
@@ -188,25 +194,25 @@
                             <div @click="manageArtikel"
                                 class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 hover:text-gray-200 bg-gray-200 text-black hover:bg-che p-2">
                                 <h1>
-                                    Artikel
+                                    Berita
                                 </h1>
                             </div>
                             <div @click="createArtikel"
                                 class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 text-black bg-sun hover:text-gray-200 font-semibold hover:bg-che text-xl px-2 uppercase tracking-wide">
                                 <h1>
-                                    Buat Artikel
+                                    Buat Berita
                                 </h1>
                             </div>
                             <div @click="editArtikel"
                                 class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 text-black bg-sun hover:text-gray-200 font-semibold hover:bg-che text-xl px-2 uppercase tracking-wider">
                                 <h1>
-                                    Edit Artikel
+                                    Edit Berita
                                 </h1>
                             </div>
                             <div @click="deleteArtikel"
                                 class="border-2 border-black transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 text-black bg-sun hover:text-gray-200 font-semibold hover:bg-che text-xl px-2 uppercase tracking-wider">
                                 <h1>
-                                    Hapus Artikel
+                                    Hapus Berita
                                 </h1>
                             </div>
                         </div>
@@ -265,6 +271,14 @@
                                                     </button>
                                                 </div>
                                             </div>
+                                            <div class="bg-black">
+                                                <div
+                                                    class="border-2 border-black px-4 py-0.5 bg-gray-200 transition-transform duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2">
+                                                    <button @click="heatmap">
+                                                        <h1 class="bg-gray-200">HEATMAP</h1>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -311,89 +325,16 @@
                                         </GMapInfoWindow>
                                     </GMapMap>
                                 </div>
+                                <div v-if="heater">
+                                    <heatMap />
+                                </div>
                             </div>
-                            <div
-                                class="bg-none overflow-y-auto font-Jet text-sm font-extrabold text-black max-h-[38.5rem]">
+                            <div class="bg-none overflow-y-auto font-Jet text-sm font-extrabold text-black h-[38.5rem]">
                                 <div v-if="relawanConfirm" class="bg-gray-100 p-5 rounded">
-                                    <h2 class="text-2xl mb-4 text-black">Konfirmasi
-                                        Relawan</h2>
-                                    <div class="grid grid-cols-3 gap-4 h-[38.5rem]">
-                                        <div v-for="relawan in relawans" :key="relawan._id" class="mb-4">
-                                            <div class="bg-white p-4 rounded shadow">
-                                                <div class="py-2 flex">
-                                                    <div class="bg-black rounded-md">
-                                                        <button @click="generatePDFx(relawan)"
-                                                            class="bg-gray-200 rounded-md transition-transform border-2 border-black duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:bg-gray-400 hover:text-black px-2 py-1  font-Karantina font-bold text-lg uppercase">
-                                                            <h1>Buka File Lengkap...</h1>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <p class="mb-6">Status: {{ relawan.status }}</p>
-                                                <p class="mb-2">Nama: {{ relawan.nama }}</p>
-                                                <p class="mb-2">HP: {{ relawan.hp }}</p>
-                                                <p class="mb-2">Kecamatan: {{ relawan.kecamatan }}</p>
-                                                <p class="mb-2">Kelurahan: {{ relawan.kelurahan }}</p>
-                                                <p class="mb-2">Rt: {{ relawan.rt }}</p>
-                                                <p class="mb-6">Rw: {{ relawan.rw }}</p>
-                                                <div class="flex justify-between">
-                                                    <div class="bg-black rounded-md">
-                                                        <button
-                                                            @click="updateRelawanStatus(relawan._id, 'success', relawan.hp)"
-                                                            class="transition-transform border-2 border-black duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 bg-gray-200 hover:bg-gray-400 text-balance font-bold py-2 px-4 rounded">
-                                                            Success
-                                                        </button>
-                                                    </div>
-                                                    <div class="bg-black rounded-md">
-                                                        <button @click="updateRelawanStatus(relawan._id, 'gagal')"
-                                                            class="transition-transform border-2 border-black duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 bg-gray-200 hover:bg-gray-400 text-balance font-bold py-2 px-4 rounded">
-                                                            Gagal
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <cariRelawan />
                                 </div>
                                 <div v-if="timrelawanConfirm" class="bg-gray-100 p-5 rounded h-[38.5rem]">
-                                    <h2 class="text-2xl mb-4">Konfirmasi Tim Relawan</h2>
-                                    <div class="grid grid-cols-3 gap-4">
-                                        <div v-for="tim in timrelawan" :key="tim._id" class="mb-4">
-                                            <div class="bg-white p-4 rounded shadow">
-                                                <div class="py-2 flex">
-                                                    <div class="bg-black rounded-md">
-                                                        <button @click="generatePDF(tim)"
-                                                            class="bg-gray-200 rounded-md transition-transform border-2 border-black duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:bg-gray-400 hover:text-black px-2 py-1  font-Karantina font-bold text-lg uppercase">
-                                                            <h1>Buka File Lengkap...</h1>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <p class="mb-6">Status: {{ tim.status }}</p>
-                                                <p class="mb-2">Nama Tim: {{ tim.namatim }}</p>
-                                                <p class="mb-2">Nama Ketua: {{ tim.namaketua }}</p>
-                                                <p class="mb-2">Anggota : {{ tim.totalanggota }} orang</p>
-                                                <p class="mb-2">No HP: {{ tim.hp }}</p>
-                                                <p class="mb-2">Kecamatan: {{ tim.kecamatan }}</p>
-                                                <p class="mb-2">Kelurahan: {{ tim.kelurahan }}</p>
-                                                <p class="mb-2">Rt: {{ tim.rt }}</p>
-                                                <p class="mb-6">Rw: {{ tim.rw }}</p>
-                                                <div class="flex justify-between">
-                                                    <div class="bg-black rounded-md">
-                                                        <button
-                                                            @click="updateTimRelawanStatus(tim._id, 'success', tim.hp)"
-                                                            class="transition-transform border-2 border-black duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 bg-gray-200 hover:bg-gray-400 text-balance font-bold py-2 px-4 rounded">
-                                                            Success
-                                                        </button>
-                                                    </div>
-                                                    <div class="bg-black rounded-md">
-                                                        <button @click="updateTimRelawanStatus(tim._id, 'gagal')"
-                                                            class="transition-transform border-2 border-black duration-300 ease-linear transform hover:scale-[1.02] -translate-x-1 -translate-y-1 hover:-translate-x-2 hover:-translate-y-2 bg-gray-200 hover:bg-gray-400 text-balance font-bold py-2 px-4 rounded">
-                                                            Gagal
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <cariTimRelawan />
                                 </div>
                                 <div v-if="relawanDelete" class="bg-gray-100 p-5 rounded h-[38.5rem]">
                                     <h2 class="text-2xl mb-4">Hapus Relawan</h2>
@@ -901,26 +842,26 @@
                                 </div>
                                 <div>
                                     <div v-if="generalArtikel" class="bg-gray-100 p-5 rounded h-[38.5rem] text-3xl">
-                                        <h1>Kamu Berada Di Area Managemen Artikel.</h1>
+                                        <h1>Kamu Berada Di Area Managemen Berita.</h1>
                                         <div class="text-xl pt-6">
-                                            <h1>Terdapat Beberapa Fitur Untuk untuk Mengolah Artikel yang Tersedia.</h1>
+                                            <h1>Terdapat Beberapa Fitur Untuk untuk Mengolah Berita yang Tersedia.</h1>
                                             <div class="pt-6">
                                                 <div>
-                                                    <h1>* Buat Artikel</h1>
+                                                    <h1>* Buat Berita</h1>
                                                     <div class="pl-6 pb-2">
-                                                        <h1>Dimana Tim Bisa Membuat Artikel-Artikel Terkait Kandidat
+                                                        <h1>Dimana Tim Bisa Membuat Berita-Berita Terkait Kandidat
                                                         </h1>
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <h1>* Edit Artikel</h1>
+                                                    <h1>* Edit Berita</h1>
                                                     <div class="pl-6 pb-2">
                                                         <h1>Dimana Tim Bisa melakukan modifikasi terhadap artikel yang
                                                             telah terpublish.</h1>
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <h1>* Hapus Artikel</h1>
+                                                    <h1>* Hapus Berita</h1>
                                                     <div class="pl-6 pb-2">
                                                         <h1>Dimana Tim Bisa menghapus artikel yang telah terpublish.
                                                         </h1>
@@ -994,6 +935,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div v-if="sendInfo" class="bg-gray-100 p-5 rounded h-[38.5rem]">
+                                    <h2 class="text-2xl mb-4">BroadCast Informasi</h2>
+                                    <sendBoard />
+                                </div>
                                 <div v-if="showCreateInfor" class="bg-gray-100 p-5 rounded h-[38.5rem]">
                                     <h2 class="text-2xl mb-4">Buat Informasi</h2>
                                     <addBoard />
@@ -1007,15 +952,15 @@
                                     <deleteBoard />
                                 </div>
                                 <div v-if="showCreateArtikel" class="bg-gray-100 p-5 rounded h-[38.5rem]">
-                                    <h2 class="text-2xl mb-4">Buat Artikel</h2>
+                                    <h2 class="text-2xl mb-4">Buat Berita</h2>
                                     <addArtikel />
                                 </div>
                                 <div v-if="showEditArtikel" class="bg-gray-100 p-5 rounded h-[38.5rem]">
-                                    <h2 class="text-2xl mb-4">Edit Artikel</h2>
+                                    <h2 class="text-2xl mb-4">Edit Berita</h2>
                                     <editArtikel />
                                 </div>
                                 <div v-if="showDeleteArtikel" class="bg-gray-100 p-5 rounded h-[38.5rem]">
-                                    <h2 class="text-2xl mb-4">Hapus Artikel</h2>
+                                    <h2 class="text-2xl mb-4">Hapus Berita</h2>
                                     <deleteArtikel />
                                 </div>
                                 <div v-if="showCreateGallery" class="bg-gray-100 p-5 rounded h-[38.5rem]">
@@ -1098,11 +1043,15 @@ import addGallery from './addGallery.vue';
 import editGallery from './editGallery.vue';
 import deleteGallery from './deleteGallery.vue';
 import AdminLiveChat from './AdminLiveChat.vue';
+import heatMap from './heatMap.vue';
+import cariTimRelawan from './cariTimRelawan.vue';
+import cariRelawan from './cariRelawan.vue';
+import sendBoard from './sendBoard.vue';
 import 'jspdf-autotable';
 import VueQrcode from "@chenfengyuan/vue-qrcode";
 import api from '@/services/api';
 import CryptoJS from 'crypto-js';
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+// import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 const secretKey = 'c8h2NdW7oE9kJ4r5bT8vF1gP3yS6wL7n';
 
 const decryptData = (encryptedData) => {
@@ -1141,7 +1090,11 @@ export default {
         AdminLiveChat,
         addBoard,
         editBoard,
-        deleteBoard
+        deleteBoard,
+        heatMap,
+        cariTimRelawan,
+        cariRelawan,
+        sendBoard
     },
     data() {
         return {
@@ -1231,6 +1184,8 @@ Kontak Informasi:
 Catatan Tambahan:
 [Informasi tambahan yang perlu diketahui oleh peserta atau tamu undangan.]`,
             messagesx: `hello World`,
+            heater: false,
+            sendInfo: false
         };
     },
     methods: {
@@ -1285,7 +1240,8 @@ Catatan Tambahan:
             this.showCreateBoard = false;
             this.showCreateInfor = false;
             this.showEditInfor = false;
-            this.showDeleteInfor = false
+            this.sendInfo = false,
+                this.showDeleteInfor = false
         },
         async fetchRelawanToken(id) {
             try {
@@ -1363,290 +1319,6 @@ Catatan Tambahan:
         close() {
             this.qr = false;
             this.qrCode = null;
-        }
-        ,
-        async generatePDF(timrelawan) {
-            try {
-                // Load the existing PDF template
-                const url = '/templaterelawanTim.pdf'; // Path to your PDF template
-                const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer());
-
-                // Load PDF
-                const pdfDoc = await PDFDocument.load(existingPdfBytes);
-                const pages = pdfDoc.getPages();
-                const imageUrl = this.getFullImgPath(timrelawan.ttd);
-
-                // Fetch image and add it to the PDF
-                const imageBytes = await fetch(imageUrl).then(res => res.arrayBuffer());
-
-                // Determine the correct image embedding method
-                const imageExtension = imageUrl.split('.').pop().toLowerCase();
-                const imageUrlsAnggota = timrelawan.ttdAnggota.map(ttd => this.getFullImgPath(ttd));
-                const imagePromises = imageUrlsAnggota.map(async (imgUrl) => {
-                    const imgBytes = await fetch(imgUrl).then(res => res.arrayBuffer());
-                    const imgExtension = imgUrl.split('.').pop().toLowerCase();
-                    let image;
-                    if (imgExtension === 'png') {
-                        image = await pdfDoc.embedPng(imgBytes);
-                    } else if (imgExtension === 'jpg' || imgExtension === 'jpeg') {
-                        image = await pdfDoc.embedJpg(imgBytes);
-                    } else if (imgExtension === 'svg') {
-                        image = await pdfDoc.embedSvg(imgBytes);
-                    } else {
-                        throw new Error('Unsupported image format');
-                    }
-                    return image;
-                });
-
-                if (pages.length < 2) {
-                    console.error('PDF does not have enough pages.');
-                    return;
-                }
-
-                const page = pages[0];
-                //const secondPage = pages[1];
-
-                // Define text settings
-                const fontSize = 12;
-                const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-
-                // Add text at specific positions
-                page.drawText(timrelawan.namatim.toUpperCase(), { x: 230, y: 606, size: fontSize, font: font, color: rgb(0, 0, 0) });
-                page.drawText(timrelawan.namaketua.toUpperCase(), { x: 230, y: 584, size: fontSize, font: font, color: rgb(0, 0, 0) });
-                page.drawText(timrelawan.totalanggota.toString(), { x: 230, y: 564, size: fontSize, font: font, color: rgb(0, 0, 0) });
-                page.drawText(timrelawan.kecamatan.toUpperCase(), { x: 230, y: 542, size: fontSize, font: font, color: rgb(0, 0, 0) });
-                page.drawText(timrelawan.kelurahan, { x: 230, y: 522, size: fontSize, font: font, color: rgb(0, 0, 0) });
-                page.drawText(timrelawan.rw, { x: 230, y: 502, size: fontSize, font: font, color: rgb(0, 0, 0) });
-                page.drawText(timrelawan.rt, { x: 230, y: 482, size: fontSize, font: font, color: rgb(0, 0, 0) });
-                page.drawText(timrelawan.hp, { x: 230, y: 460, size: fontSize, font: font, color: rgb(0, 0, 0) });
-
-                let image;
-                if (imageExtension === 'png') {
-                    image = await pdfDoc.embedPng(imageBytes);
-                } else if (imageExtension === 'jpg' || imageExtension === 'jpeg') {
-                    image = await pdfDoc.embedJpg(imageBytes);
-                } else if (imageExtension === 'svg') {
-                    image = await pdfDoc.embedSvg(imageBytes);
-                } else {
-                    throw new Error('Unsupported image format');
-                }
-
-                // Draw image on the first page
-                page.drawImage(image, { x: 330, y: 140, width: 200, height: 100 });
-
-                const bulan = [
-                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-                ];
-
-                // Parse tanggal dari string
-                const date = new Date(timrelawan.tanggal);
-
-                // Ambil komponen tanggal
-                const tanggal = date.getUTCDate();
-                const bulanIndex = date.getUTCMonth();
-                const tahun = date.getUTCFullYear();
-
-                page.drawText(`Kota Bima, ${tanggal} ${bulan[bulanIndex]} ${tahun}`, { x: 348, y: 270, size: fontSize, font: font, color: rgb(0, 0, 0) });
-
-                // Function to duplicate a page
-                const duplicatePage = async (pageIndex) => {
-                    const [copiedPage] = await pdfDoc.copyPages(pdfDoc, [pageIndex]);
-                    pdfDoc.addPage(copiedPage); // Add the duplicated page to the document
-                    return copiedPage;
-                };
-
-                // Add images to a page
-                const addImagesToPage = async (page, images, startIndex) => {
-                    let imageY = page.getHeight() - 150;
-                    const imagesPerPage = 5;
-                    const endIndex = Math.min(startIndex + imagesPerPage, images.length);
-
-                    for (let i = startIndex; i < endIndex; i++) {
-                        const image = images[i];
-                        const height = 100;
-                        page.drawImage(image, {
-                            x: 200,
-                            y: imageY - height,
-                            width: 200,
-                            height: height,
-                        });
-                        page.drawText(`Foto KTP Anggota Ke : ${i + 1}`, {
-                            x: 200,
-                            y: imageY + 5,
-                            size: fontSize,
-                            font: font,
-                            color: rgb(0, 0, 0),
-                        });
-                        imageY -= height + 25;
-                    }
-                };
-
-                // Get all images
-                const images = await Promise.all(imagePromises);
-                const imagesPerPage = 5;
-                const totalImages = images.length;
-                const totalPages = Math.ceil(totalImages / imagesPerPage);
-
-                // Add images to the initial duplicated page
-                let currentPage = await duplicatePage(1); // Duplicates the second page
-                await addImagesToPage(currentPage, images, 0);
-
-                // Add additional pages and distribute images
-                for (let pageIndex = 1; pageIndex < totalPages; pageIndex++) {
-                    currentPage = await duplicatePage(1); // Duplicates the second page again
-                    const startIndex = pageIndex * imagesPerPage;
-                    await addImagesToPage(currentPage, images, startIndex);
-                }
-                pdfDoc.removePage(1);
-                // Serialize the PDF to bytes
-                const pdfBytes = await pdfDoc.save();
-
-                // Create a Blob and trigger a download
-                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                const urlBlob = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = urlBlob;
-                link.download = `Surat_Pernyataan_RelawanTim_${timrelawan.namatim}.pdf`;
-                link.click();
-
-                this.pdfGeneratedTimStatus = {
-                    ...this.pdfGeneratedTimStatus,
-                    [timrelawan._id]: true
-                };
-                alert('PDF Tim berhasil diunduh!');
-            } catch (error) {
-                console.error('Error generating PDF:', error);
-            }
-        }
-        ,
-        async generatePDFx(relawan) {
-            try {
-                // Load the existing PDF template
-                const url = '/templaterelawan.pdf'  // Ganti dengan path ke file PDF template Anda
-                const existingPdfBytes = await fetch(url).then(res => res.arrayBuffer());
-
-                // Load PDF
-                const pdfDoc = await PDFDocument.load(existingPdfBytes);
-                const page = pdfDoc.getPages()[0];
-
-                // Define text settings
-                const fontSize = 12;
-                const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-
-                // Add text at specific positions
-                page.drawText(relawan.nama.toUpperCase(), {
-                    x: 230,   // Koordinat X
-                    y: 606,  // Koordinat Y
-                    size: fontSize,
-                    font: font,
-                    color: rgb(0, 0, 0),
-                });
-
-                page.drawText(relawan.kecamatan.toUpperCase(), {
-                    x: 230,   // Koordinat X
-                    y: 584,  // Koordinat Y
-                    size: fontSize,
-                    font: font,
-                    color: rgb(0, 0, 0),
-                });
-
-                page.drawText(relawan.kelurahan.toUpperCase(), {
-                    x: 230,   // Koordinat X
-                    y: 562,  // Koordinat Y
-                    size: fontSize,
-                    font: font,
-                    color: rgb(0, 0, 0),
-                });
-
-                page.drawText(relawan.rw, {
-                    x: 230,   // Koordinat X
-                    y: 542,  // Koordinat Y
-                    size: fontSize,
-                    font: font,
-                    color: rgb(0, 0, 0),
-                });
-
-                page.drawText(relawan.rt, {
-                    x: 230,   // Koordinat X
-                    y: 522,  // Koordinat Y
-                    size: fontSize,
-                    font: font,
-                    color: rgb(0, 0, 0),
-                });
-
-                page.drawText(relawan.hp, {
-                    x: 230,   // Koordinat X
-                    y: 501,  // Koordinat Y
-                    size: fontSize,
-                    font: font,
-                    color: rgb(0, 0, 0),
-                });
-
-                const imageUrl = this.getFullImgPath(relawan.ttd);
-                // Fetch image and add it to the PDF
-                const imageBytes = await fetch(imageUrl).then(res => res.arrayBuffer());
-
-                // Determine the correct image embedding method
-                const imageExtension = imageUrl.split('.').pop().toLowerCase();
-                let image;
-                if (imageExtension === 'png') {
-                    image = await pdfDoc.embedPng(imageBytes);
-                } else if (imageExtension === 'jpg' || imageExtension === 'jpeg') {
-                    image = await pdfDoc.embedJpg(imageBytes);
-                } else if (imageExtension === 'svg') {
-                    image = await pdfDoc.embedSvg(imageBytes);
-                } else {
-                    throw new Error('Unsupported image format');
-                }
-                // Draw image on the first page
-                page.drawImage(image, {
-                    x: 350,
-                    y: 200,
-                    width: 200, // Adjust width
-                    height: 100, // Adjust height
-                });
-
-                const bulan = [
-                    'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                    'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-                ];
-
-                // Parse tanggal dari string
-                const date = new Date(relawan.tanggal);
-
-                // Ambil komponen tanggal
-                const tanggal = date.getUTCDate();
-                const bulanIndex = date.getUTCMonth(); // Januari = 0, Agustus = 7, dll
-                const tahun = date.getUTCFullYear();
-
-                page.drawText(`Kota Bima, ${tanggal} ${bulan[bulanIndex]} ${tahun}`, {
-                    x: 390,   // Koordinat X
-                    y: 340,  // Koordinat Y
-                    size: fontSize,
-                    font: font,
-                    color: rgb(0, 0, 0),
-                });
-
-                // Serialize the PDF to bytes
-                const pdfBytes = await pdfDoc.save();
-
-                // Create a Blob and trigger a download
-                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                const urlBlob = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = urlBlob;
-                link.download = `Surat_Pernyataan_Relawan_${relawan.nama}.pdf`;
-                link.click();
-
-                this.pdfGeneratedStatus = {
-                    ...this.pdfGeneratedStatus,
-                    [relawan._id]: true
-                };
-                alert('PDF Relawan berhasil diunduh!');
-            } catch (error) {
-                console.error('Error generating PDF:', error);
-            }
         },
         sendMessage() {
             this.sendBroadcastRelawan(this.selectedRelawanHp, this.message);
@@ -1910,13 +1582,22 @@ Catatan Tambahan:
         tim() {
             this.relawan = false;
             // this.resetViews();
+            this.heater = false;
             this.tims = true;
             this.closeInfoWindow();
         },
         individ() {
             this.tims = false;
             // this.resetViews();
+            this.heater = false;
             this.relawan = true;
+            this.closeInfoWindow();
+        },
+        heatmap() {
+            this.tims = false;
+            // this.resetViews();
+            this.heater = true;
+            this.relawan = false;
             this.closeInfoWindow();
         },
         balihox() {
@@ -1924,6 +1605,10 @@ Catatan Tambahan:
             this.bali = true;
             this.balihow = true;
             this.closeInfoWindow();
+        },
+        sendBoards() {
+            this.resetViews();
+            this.sendInfo = true;
         },
         editsBoard() {
             this.resetViews();

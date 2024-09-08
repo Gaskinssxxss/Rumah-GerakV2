@@ -1,9 +1,18 @@
 <template>
     <div class="px-10 pt-6">
-        <div class="bg-black rounded-md uppercase" v-motion-pop :delay="300">
+        <div class="rounded-md uppercase" v-motion-pop :delay="300">
             <div
-                class="bg-golkar rounded-md relative -top-1 -left-1 border-2 border-black py-2 px-4 font-Karantina font-bold text-3xl text-center">
-                <h1>portal berita amanah</h1>
+                class="rounded-md relative -top-1 -left-1 py-2 px-4 font-Karantina font-bold text-3xl text-center flex space-x-1">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-10">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1>portal berita amanah</h1>
+                </div>
             </div>
         </div>
     </div>
@@ -30,6 +39,12 @@
                                                     class="object-cover h-48 w-96 border-2 border-black relative -top-1.5 -left-1.5 object-top" />
                                             </div>
                                         </div>
+                                    </div>
+                                    <div
+                                        class="flex justify-end py-4 pr-6 font-Jet text-gray-600 hover:text-black text-sm font-extrabold">
+                                        <button @click="buka(artikel._id)">
+                                            <h1 class="underline hover:text-black">Buka Berita</h1>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -95,6 +110,9 @@ export default {
             })
     },
     methods: {
+        async buka(id) {
+            await this.$router.push({ name: 'PORTAL', params: { id } });
+        },
         getFullImgPath(img) {
             return `https://rumahgerak.com/${img}`;
         },

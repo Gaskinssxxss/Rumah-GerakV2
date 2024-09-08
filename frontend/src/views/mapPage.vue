@@ -50,7 +50,7 @@ export default {
             chart: null,
             kecamatans: [],
             selectedKecamatan: '',
-            selectedPeriode: 'tanggal', // Default periode adalah per tanggal
+            selectedPeriode: 'tanggal',
         };
     },
     mounted() {
@@ -67,7 +67,6 @@ export default {
                             const parsedData = JSON.parse(decData);
                             if (Array.isArray(parsedData.data)) {
                                 const data = parsedData.data;
-                                // Check if the data is an array
                                 if (Array.isArray(data)) {
                                     setTimeout(() => {
                                         this.kecamatans = [...new Set(data.map(relawan => relawan.kecamatan))];
@@ -76,7 +75,6 @@ export default {
                                     this.createChart(data);
                                 } else {
                                     console.error('Expected an array, but received:', data);
-                                    // Handle the case where the data is not an array (e.g., show an error message)
                                 }
                             } else {
                                 return;
@@ -87,7 +85,6 @@ export default {
                     } else {
                         return;
                     }
-                    // const data = response.data.data;
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
@@ -115,7 +112,7 @@ export default {
             const dailyData = {};
             data.forEach(relawan => {
                 const date = new Date(relawan.tanggal);
-                if (!isNaN(date)) { // Memastikan bahwa tanggal valid
+                if (!isNaN(date)) {
                     const formattedDate = date.toISOString().split('T')[0];
                     if (!dailyData[formattedDate]) {
                         dailyData[formattedDate] = {
@@ -131,13 +128,19 @@ export default {
                         kecamatan: relawan.kecamatan,
                         kelurahan: relawan.kelurahan,
                     });
+                    // Menghitung jumlah total tim
+                    dailyData[formattedDate].totalTeams = dailyData[formattedDate].details.length;
                 } else {
                     console.error(`Invalid date encountered: ${relawan.tanggal}`);
                 }
             });
 
             const dates = Object.keys(dailyData).sort();
-            const counts = dates.map(date => dailyData[date].count);
+            const counts = dates.map(date => {
+                const totalAnggota = dailyData[date].count;
+                const totalTeams = dailyData[date].totalTeams;
+                return totalAnggota + totalTeams; // Menambahkan total anggota dan jumlah tim
+            });
             const details = dates.map(date => dailyData[date].details);
 
             this.chart = new Chart(ctx, {
@@ -145,7 +148,7 @@ export default {
                 data: {
                     labels: dates,
                     datasets: [{
-                        label: 'Jumlah Anggota Relawan per Tanggal',
+                        label: 'Jumlah Anggota dan Tim Relawan per Tanggal',
                         data: counts,
                         borderColor: 'rgba(75, 192, 192, 1)',
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -188,7 +191,7 @@ export default {
                         y: {
                             title: {
                                 display: true,
-                                text: 'Jumlah Anggota Relawan'
+                                text: 'Jumlah Anggota dan Tim Relawan'
                             },
                             beginAtZero: true
                         }
@@ -209,7 +212,7 @@ export default {
             const weeklyData = {};
             data.forEach(relawan => {
                 const date = new Date(relawan.tanggal);
-                if (!isNaN(date)) { // Memastikan bahwa tanggal valid
+                if (!isNaN(date)) {
                     const weekStart = getStartOfWeek(date).toISOString().split('T')[0];
                     if (!weeklyData[weekStart]) {
                         weeklyData[weekStart] = {
@@ -225,13 +228,19 @@ export default {
                         kecamatan: relawan.kecamatan,
                         kelurahan: relawan.kelurahan,
                     });
+                    // Menghitung jumlah total tim
+                    weeklyData[weekStart].totalTeams = weeklyData[weekStart].details.length;
                 } else {
                     console.error(`Invalid date encountered: ${relawan.tanggal}`);
                 }
             });
 
             const weeks = Object.keys(weeklyData).sort();
-            const counts = weeks.map(week => weeklyData[week].count);
+            const counts = weeks.map(week => {
+                const totalAnggota = weeklyData[week].count;
+                const totalTeams = weeklyData[week].totalTeams;
+                return totalAnggota + totalTeams; // Menambahkan total anggota dan jumlah tim
+            });
             const details = weeks.map(week => weeklyData[week].details);
 
             this.chart = new Chart(ctx, {
@@ -239,7 +248,7 @@ export default {
                 data: {
                     labels: weeks,
                     datasets: [{
-                        label: 'Jumlah Anggota Relawan per Minggu',
+                        label: 'Jumlah Anggota dan Tim Relawan per Minggu',
                         data: counts,
                         borderColor: 'rgba(75, 192, 192, 1)',
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -282,7 +291,7 @@ export default {
                         y: {
                             title: {
                                 display: true,
-                                text: 'Jumlah Anggota Relawan'
+                                text: 'Jumlah Anggota dan Tim Relawan'
                             },
                             beginAtZero: true
                         }
