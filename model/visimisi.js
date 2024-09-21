@@ -2,14 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const misiSchema = new Schema({
-  judul: {
-    type: String,
-    required: true,
-  },
-  deskripsi: {
-    type: String,
-    required: true,
-  },
+  program: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
+});
+
+const pkSchema = new Schema({
   program: [
     {
       type: String,
@@ -24,6 +25,7 @@ const visimisi = new Schema({
     required: true,
   },
   misi: [misiSchema],
+  programKerja: [pkSchema],
 });
 
 const Visimisi = mongoose.model("Visimisi", visimisi);

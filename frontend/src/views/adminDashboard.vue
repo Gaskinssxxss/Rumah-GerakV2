@@ -250,7 +250,7 @@
                                     <AdminLiveChat />
                                 </div>
                             </div>
-                            <div v-if="petaRelawan">
+                            <div v-if="petaRelawan" class="max-h-[38.5rem]">
                                 <div class="flex justify-between">
                                     <h1 class="px-6 py-2 text-black text-4xl">Peta Relawan</h1>
                                     <div class="text-black px-6 py-4">
@@ -329,8 +329,9 @@
                                     <heatMap />
                                 </div>
                             </div>
-                            <div class="bg-none overflow-y-auto font-Jet text-sm font-extrabold text-black h-[38.5rem]">
-                                <div v-if="relawanConfirm" class="bg-gray-100 p-5 rounded">
+                            <div
+                                class="bg-none overflow-y-auto font-Jet text-sm font-extrabold text-black max-h-[38.5rem]">
+                                <div v-if="relawanConfirm" class="bg-gray-100 p-5 rounded h-[38.5rem]">
                                     <cariRelawan />
                                 </div>
                                 <div v-if="timrelawanConfirm" class="bg-gray-100 p-5 rounded h-[38.5rem]">

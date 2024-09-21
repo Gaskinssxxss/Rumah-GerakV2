@@ -46,9 +46,6 @@
               <img src="../assets/nasdem.png" />
             </div>
             <div class="flex border-2 border-black">
-              <img src="../assets/Gelora.png" />
-            </div>
-            <div class="flex border-2 border-black">
               <img src="../assets/hanura.png" />
             </div>
             <div class="flex border-2 border-black">
@@ -152,7 +149,7 @@
               </div>
               <div v-if="totalKegiatan" class="font-Karantina text-gray-300 text-3xl uppercase font-bold">
                 <h1 class="text-xl font-normal tracking-wider">Kegiatan</h1>
-                <h1 class="-mt-2 text-2xl">{{ totalKegiatan }} + 1</h1>
+                <h1 class="-mt-2 text-2xl">{{ totalKegiatan }}</h1>
               </div>
             </div>
           </div>

@@ -14,9 +14,6 @@
                             <img src="../assets/nasdem.png" />
                         </div>
                         <div class="flex border-2 border-black">
-                            <img src="../assets/Gelora.png" />
-                        </div>
-                        <div class="flex border-2 border-black">
                             <img src="../assets/hanura.png" />
                         </div>
                         <div class="flex border-2 border-black">

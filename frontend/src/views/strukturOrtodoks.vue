@@ -1,5 +1,5 @@
 <template>
     <div>
-        <img src="../assets/TIM.png" alt="">
+        <img src="../assets/TIMS.png" alt="">
     </div>
 </template>

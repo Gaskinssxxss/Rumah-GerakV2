@@ -70,7 +70,7 @@ export default {
                                 if (Array.isArray(data)) {
                                     setTimeout(() => {
                                         this.kecamatans = [...new Set(data.map(relawan => relawan.kecamatan))];
-                                    }, 3000);
+                                    }, 5000);
 
                                     this.createChart(data);
                                 } else {
