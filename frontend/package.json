@@ -23,7 +23,7 @@
     "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
-    "jspdf-autotable": "^3.8.2",
+    "jspdf-autotable": "^3.8.3",
     "pdf-lib": "^1.17.1",
     "plotly.js-dist-min": "^2.34.0",
     "simple-auth": "file:..",
