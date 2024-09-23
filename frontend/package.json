@@ -11,7 +11,7 @@
     "@cloudgeek/vue3-video-player": "^0.3.10",
     "@fawmi/vue-google-maps": "^0.9.79",
     "@vueuse/motion": "^2.2.3",
-    "apexcharts": "^3.35.3",
+    "apexcharts": "^3.53.0",
     "axios": "^0.27.2",
     "chart.js": "^4.4.3",
     "core-js": "^3.8.3",
